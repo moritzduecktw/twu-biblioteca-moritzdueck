@@ -7,6 +7,6 @@ public class BibliotecaApp {
     }
 
     public void start() {
-        System.out.println("Welcome to Biblioteca!");
+        System.out.println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
     }
 }
