@@ -1,6 +1,15 @@
 package com.twu.biblioteca;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BibliotecaApp {
+
+    private List<Book> books;
+
+    public BibliotecaApp() {
+        this.books = new ArrayList<>();
+    }
 
     public static void main(String[] args) {
         System.out.println("Hello, world!");
@@ -12,8 +21,23 @@ public class BibliotecaApp {
     }
 
     public void printAllBooks() {
-        System.out.println("Clean Code: A Handbook of Agile Software Craftsmanship");
-        System.out.println("The Pragmatic Programmer: From Journeyman to Master");
-        System.out.println("Code Complete: A Practical Handbook of Software Construction");
+
+       int maxLengthTitle = books.stream()
+               .map(Book::getTitle)
+               .map(String::length)
+               .reduce(0,Integer::max);
+
+        int maxLengthAuthor = books.stream()
+                .map(Book::getAuthor)
+                .map(String::length)
+                .reduce(0,Integer::max);
+
+        for (Book book : books) {
+            System.out.println(String.format("%-"+maxLengthTitle+"s",book.getTitle())+" | "+String.format("%-"+maxLengthAuthor+"s",book.getAuthor())+" | "+book.getYear());
+        }
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }
