@@ -1,16 +1,20 @@
 package com.twu.biblioteca;
 
+import java.io.PrintStream;
 import java.util.List;
 
-public class BookShelf {
-    private List<Book> books;
+public class ListBooksCommand implements Command {
 
-    public BookShelf(List<Book> books) {
+    private List<Book> books;
+    private PrintStream out;
+
+    public ListBooksCommand(List<Book> books, PrintStream out) {
         this.books = books;
+        this.out = out;
     }
 
-    public String outputBookList() {
-
+    @Override
+    public void execute() {
         StringBuffer result = new StringBuffer();
 
         int maxLengthTitle = getMaxTitleLength();
@@ -21,8 +25,10 @@ public class BookShelf {
             result.append("\n");
         }
 
-        return result.toString();
+        out.print(result.toString());
+
     }
+
 
     private Integer getMaxAuthorLength() {
         return books.stream()
@@ -45,9 +51,5 @@ public class BookShelf {
 
     private String getFormattedTitle(int maxLengthTitle, String title) {
         return String.format("%-" + maxLengthTitle + "s", title);
-    }
-
-    public List<Book> getBooks() {
-        return this.books;
     }
 }
