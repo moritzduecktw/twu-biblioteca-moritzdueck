@@ -5,7 +5,7 @@ import java.io.PrintStream;
 
 public class UI {
 
-    private static final int LIST_BOOKS = 1;
+    private static final String LIST_BOOKS = "1";
 
     private PrintStream out;
     private InputStream in;
@@ -23,7 +23,7 @@ public class UI {
         UserInputHandler userInputHandler = new UserInputHandler(in);
         while (true) {
             printMenu();
-            handleUserInput(userInputHandler.askForNumber());
+            handleUserInput(userInputHandler.askForNextString());
         }
     }
 
@@ -40,9 +40,15 @@ public class UI {
         out.println("(1) List of books");
     }
 
-    public void handleUserInput(int i) {
-        if (i == LIST_BOOKS) {
+    public void handleUserInput(String input) {
+        if (input == LIST_BOOKS) {
             printAllBooks();
+        }else{
+            printInvalidOptionMessage();
         }
+    }
+
+    private void printInvalidOptionMessage() {
+        out.println("Please select a valid option!");
     }
 }

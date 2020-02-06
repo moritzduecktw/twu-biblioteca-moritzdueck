@@ -7,8 +7,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class UITests {
 
@@ -48,7 +47,7 @@ public class UITests {
         books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
         UI ui = new UI(out, in, new BookShelf(books));
 
-        ui.handleUserInput(1);
+        ui.handleUserInput("1");
 
         verify(out).print("Clean Code: A Handbook of Agile Software Craftsmanship       | Robert C. Martin            | 2008\n" +
                 "The Pragmatic Programmer: From Journeyman to Master          | Andrew Hunt and Dave Thomas | 1999\n" +
@@ -56,5 +55,22 @@ public class UITests {
 
     }
 
+    @Test
+    public void printsErrorOnWrongInput() {
+
+        PrintStream out = mock(PrintStream.class);
+        InputStream in = mock(InputStream.class);
+        List<Book> books = new ArrayList<Book>();
+        books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
+        books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
+        books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
+        UI ui = new UI(out, in, new BookShelf(books));
+
+        ui.handleUserInput("0");
+        ui.handleUserInput("2");
+        ui.handleUserInput("-1das3");
+
+        verify(out, times(3)).println("Please select a valid option!");
+    }
 
 }

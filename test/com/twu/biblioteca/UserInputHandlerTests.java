@@ -14,13 +14,15 @@ public class UserInputHandlerTests {
     public void asksForNumber1() {
         InputStream in = new ByteArrayInputStream("1".getBytes());
         UserInputHandler userInputHandler = new UserInputHandler(in);
-        assertThat(userInputHandler.askForNumber(),is(1));
+        assertThat(userInputHandler.askForNextString(),is("1"));
     }
 
     @Test
     public void asksForNumber12() {
         InputStream in = new ByteArrayInputStream("12".getBytes());
         UserInputHandler userInputHandler = new UserInputHandler(in);
-        assertThat(userInputHandler.askForNumber(),is(12));
+        assertThat(userInputHandler.askForNextString(),is("12"));
     }
+
+
 }

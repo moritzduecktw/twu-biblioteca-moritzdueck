@@ -1,6 +1,7 @@
 package com.twu.biblioteca;
 
 import java.io.InputStream;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UserInputHandler {
@@ -13,7 +14,7 @@ public class UserInputHandler {
 
     }
 
-    public int askForNumber() {
-        return scanner.nextInt();
+    public String askForNextString() {
+        return scanner.next();
     }
 }
