@@ -71,6 +71,8 @@ public class UI {
         printSelectBookStatement();
         if(bookShelf.returnBook(userInputHandler.askForNextString())){
             out.println("Thank you for returning the book");
+        }else{
+            out.println("That is not a valid book to return.");
         }
     }
 

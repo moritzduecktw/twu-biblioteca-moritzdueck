@@ -142,6 +142,22 @@ public class UITests {
     }
 
     @Test
+    public void printReturnFailure() {
+        PrintStream out = mock(PrintStream.class);
+        UserInputHandler userInputHandler = mock(UserInputHandler.class);
+
+        when(userInputHandler.askForNextString()).thenReturn("book1");
+        BookShelf bookShelf = mock(BookShelf.class);
+        when(bookShelf.returnBook("book2")).thenReturn(false);
+
+        UI ui = new UI(out, userInputHandler, bookShelf);
+        ui.handleUserInput("3");
+
+        verify(bookShelf).returnBook("book1");
+        verify(out).println("That is not a valid book to return.");
+    }
+
+    @Test
     public void printsErrorOnWrongInput() {
 
         PrintStream out = mock(PrintStream.class);
