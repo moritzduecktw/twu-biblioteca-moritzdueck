@@ -9,12 +9,12 @@ public class Controller {
     private final ConsoleUI consoleUI;
 
     private UserInputHandler userInputHandler;
-    private BookShelf bookShelf;
+    private MediaRepository mediaRepository;
 
-    public Controller(ConsoleUI consoleUI, UserInputHandler userInputHandler, BookShelf bookShelf) {
+    public Controller(ConsoleUI consoleUI, UserInputHandler userInputHandler, MediaRepository mediaRepository) {
         this.consoleUI = consoleUI;
         this.userInputHandler = userInputHandler;
-        this.bookShelf = bookShelf;
+        this.mediaRepository = mediaRepository;
     }
 
     public void start() {
@@ -41,7 +41,7 @@ public class Controller {
 
     public void checkoutBook() {
         consoleUI.printSelectBookStatement();
-        if(bookShelf.checkOut(userInputHandler.askForNextString())){
+        if(mediaRepository.checkOut(userInputHandler.askForNextString())){
             consoleUI.printCheckoutSuccessMessage();
         }else{
             consoleUI.printCheckoutFailureMessage();
@@ -51,7 +51,7 @@ public class Controller {
 
     private void returnBook() {
         consoleUI.printSelectBookStatement();
-        if(bookShelf.returnBook(userInputHandler.askForNextString())){
+        if(mediaRepository.returnBook(userInputHandler.askForNextString())){
             consoleUI.printReturnSuccessMessage();
         }else{
             consoleUI.printReturnFailureMessage();

@@ -5,11 +5,11 @@ import java.io.PrintStream;
 public class ConsoleUI {
 
     private PrintStream out;
-    private BookShelf bookShelf;
+    private MediaRepository mediaRepository;
 
-    public ConsoleUI(PrintStream out, BookShelf bookShelf) {
+    public ConsoleUI(PrintStream out, MediaRepository mediaRepository) {
         this.out = out;
-        this.bookShelf = bookShelf;
+        this.mediaRepository = mediaRepository;
     }
 
     public void printWelcomeMessage() {
@@ -49,6 +49,6 @@ public class ConsoleUI {
     }
 
     public void listBooks() {
-        out.print(bookShelf.outputBookList());
+        out.print(mediaRepository.outputBookList());
     }
 }

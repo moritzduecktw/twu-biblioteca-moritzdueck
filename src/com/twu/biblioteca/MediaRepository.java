@@ -3,11 +3,11 @@ package com.twu.biblioteca;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookShelf {
+public class MediaRepository {
     private List<Book> checkedOutBooks;
     private List<Book> books;
 
-    public BookShelf(List<Book> books) {
+    public MediaRepository(List<Book> books, List<Movie> movies) {
         this.books = books;
         this.checkedOutBooks = new ArrayList<Book>();
     }
@@ -83,4 +83,6 @@ public class BookShelf {
         }
         return false;
     }
+
+
 }
