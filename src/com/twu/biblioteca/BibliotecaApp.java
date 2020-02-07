@@ -11,8 +11,11 @@ public class BibliotecaApp {
         books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
         books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
 
-        UI ui = new UI(System.out, new UserInputHandler(System.in), new BookShelf(books));
-        ui.start();
+        BookShelf bookShelf = new BookShelf(books);
+
+        ConsoleUI consoleUI = new ConsoleUI(System.out, bookShelf);
+        Controller controller = new Controller(consoleUI, new UserInputHandler(System.in), bookShelf);
+        controller.start();
     }
 }
 

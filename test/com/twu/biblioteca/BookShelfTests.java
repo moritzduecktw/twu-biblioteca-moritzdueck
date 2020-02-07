@@ -44,6 +44,7 @@ public class BookShelfTests {
         BookShelf bookShelf = new BookShelf(books);
 
         assertThat(bookShelf.checkOut("Clean Code: A Handbook of Agile Software Craftsmanship"), is(true));
+        assertThat(bookShelf.checkOut("Not a valid one"),is(false));
         assertThat(bookShelf.getCheckedOutBooks().get(0).getTitle(), is("Clean Code: A Handbook of Agile Software Craftsmanship"));
         assertThat(bookShelf.getCheckedOutBooks().size(), is(1));
         assertThat(bookShelf.getBooks().size(), is(2));

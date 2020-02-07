@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class UserInputHandler {
 
-
     private final Scanner scanner;
 
     public UserInputHandler(InputStream in) {

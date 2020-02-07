@@ -11,38 +11,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
-public class UITests {
+public class ControllerTests {
 
     @Test
-    public void printsWelcomeMessage() {
-
-        PrintStream out = mock(PrintStream.class);
-        InputStream in = mock(InputStream.class);
-
-        UI ui = new UI(out, new UserInputHandler(in), new BookShelf(new ArrayList<Book>()));
-
-        ui.printWelcomeMessage();
-
-        verify(out).println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
-    }
-
-    @Test
-    public void printsMenu() {
-        PrintStream out = mock(PrintStream.class);
-        InputStream in = mock(InputStream.class);
-        UI ui = new UI(out, new UserInputHandler(in), new BookShelf(new ArrayList<Book>()));
-
-        ui.printMenu();
-
-        verify(out).println("Menu:\n");
-        verify(out).println("(0) Quit");
-        verify(out).println("(1) List of books");
-        verify(out).println("(2) Check-out a book");
-        verify(out).println("(3) Return a book");
-    }
-
-    @Test
-    public void exitsOnUserInputZero() {
+    public void exitsByMenu() {
 
         PrintStream out = mock(PrintStream.class);
         InputStream in = mock(InputStream.class);
@@ -50,129 +22,142 @@ public class UITests {
         books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
         books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
         books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
-        UI ui = new UI(out, new UserInputHandler(in), new BookShelf(books));
+        Controller controller = new Controller(mock(ConsoleUI.class), new UserInputHandler(in), new BookShelf(books));
 
-        assertThat(ui.handleUserInput("0"), is(false));
+        assertThat(controller.handleUserInput("0"), is(false));
     }
 
     @Test
-    public void printsAllBooksOnUserInputOne() {
+    public void printsAllBooksByMenu() {
 
-        PrintStream out = mock(PrintStream.class);
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
         InputStream in = mock(InputStream.class);
         List<Book> books = new ArrayList<Book>();
         books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
         books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
         books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
-        UI ui = new UI(out, new UserInputHandler(in), new BookShelf(books));
+        Controller controller = new Controller(consoleUI, new UserInputHandler(in), new BookShelf(books));
 
-        assertThat(ui.handleUserInput("1"), is(true));
-        verify(out).print("Clean Code: A Handbook of Agile Software Craftsmanship       | Robert C. Martin            | 2008\n" +
-                "The Pragmatic Programmer: From Journeyman to Master          | Andrew Hunt and Dave Thomas | 1999\n" +
-                "Code Complete: A Practical Handbook of Software Construction | Steve McConnell             | 2004\n");
-
+        assertThat(controller.handleUserInput("1"), is(true));
+        verify(consoleUI).printAllBooks();
     }
 
     @Test
-    public void checksOutBooks() {
-        PrintStream out = mock(PrintStream.class);
+    public void checksOutBooksByMenu() {
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
         when(userInputHandler.askForNextString()).thenReturn("Clean Code: A Handbook of Agile Software Craftsmanship");
         BookShelf bookShelf = mock(BookShelf.class);
         when(bookShelf.checkOut(anyString())).thenReturn(true);
 
-        UI ui = new UI(out, userInputHandler, bookShelf);
-        ui.handleUserInput("2");
+        Controller controller = new Controller(consoleUI, userInputHandler, bookShelf);
+        controller.handleUserInput("2");
 
         verify(bookShelf).checkOut("Clean Code: A Handbook of Agile Software Craftsmanship");
     }
 
     @Test
-    public void returnsBooks() {
-        PrintStream out = mock(PrintStream.class);
+    public void returnsBooksByMenu() {
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
 
         when(userInputHandler.askForNextString()).thenReturn("book1");
         BookShelf bookShelf = mock(BookShelf.class);
         when(bookShelf.returnBook("book1")).thenReturn(true);
 
-        UI ui = new UI(out, userInputHandler, bookShelf);
-        ui.handleUserInput("3");
+        Controller controller = new Controller(consoleUI, userInputHandler, bookShelf);
+        controller.handleUserInput("3");
 
         verify(bookShelf).returnBook("book1");
-        verify(out).println("Thank you for returning the book");
+        verify(consoleUI).printReturnSuccessMessage();
     }
 
     @Test
     public void printCheckoutSuccess() {
-        PrintStream out = mock(PrintStream.class);
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
 
         BookShelf bookShelf = mock(BookShelf.class);
         when(bookShelf.checkOut(anyString())).thenReturn(true);
 
-        UI ui = new UI(out,userInputHandler,bookShelf);
-        ui.bookCheckoutMenu();
+        Controller controller = new Controller(consoleUI,userInputHandler,bookShelf);
+        controller.bookCheckoutMenu();
 
         //only print on success
         when(bookShelf.checkOut(anyString())).thenReturn(false);
-        ui.bookCheckoutMenu();
-        ui.bookCheckoutMenu();
+        controller.bookCheckoutMenu();
+        controller.bookCheckoutMenu();
 
-        verify(out,times(1)).println("Thank you! Enjoy the book");
+        verify(consoleUI,times(1)).printCheckoutSuccessMessage();
     }
 
     @Test
     public void printCheckoutFailure() {
-        PrintStream out = mock(PrintStream.class);
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
 
         BookShelf bookShelf = mock(BookShelf.class);
         when(bookShelf.checkOut(anyString())).thenReturn(true);
 
-        UI ui = new UI(out,userInputHandler,bookShelf);
-        ui.bookCheckoutMenu();
+        Controller controller = new Controller(consoleUI,userInputHandler,bookShelf);
+        controller.bookCheckoutMenu();
 
         //only print on failure
         when(bookShelf.checkOut(anyString())).thenReturn(false);
-        ui.bookCheckoutMenu();
-        ui.bookCheckoutMenu();
+        controller.bookCheckoutMenu();
+        controller.bookCheckoutMenu();
 
-        verify(out,times(2)).println("Sorry, that book is not available");
+        verify(consoleUI,times(2)).printCheckoutFailureMessage();
+    }
+
+    @Test
+    public void printReturnSuccess() {
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
+        UserInputHandler userInputHandler = mock(UserInputHandler.class);
+
+        when(userInputHandler.askForNextString()).thenReturn("book1");
+        BookShelf bookShelf = mock(BookShelf.class);
+        when(bookShelf.returnBook("book1")).thenReturn(true);
+
+        Controller controller = new Controller(consoleUI, userInputHandler, bookShelf);
+        controller.handleUserInput("3");
+
+        verify(bookShelf).returnBook("book1");
+        verify(consoleUI).printReturnSuccessMessage();
     }
 
     @Test
     public void printReturnFailure() {
-        PrintStream out = mock(PrintStream.class);
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
 
         when(userInputHandler.askForNextString()).thenReturn("book1");
         BookShelf bookShelf = mock(BookShelf.class);
         when(bookShelf.returnBook("book2")).thenReturn(false);
 
-        UI ui = new UI(out, userInputHandler, bookShelf);
-        ui.handleUserInput("3");
+        Controller controller = new Controller(consoleUI, userInputHandler, bookShelf);
+        controller.handleUserInput("3");
 
         verify(bookShelf).returnBook("book1");
-        verify(out).println("That is not a valid book to return.");
+        verify(consoleUI).printReturnFailureMessage();
     }
 
     @Test
     public void printsErrorOnWrongInput() {
 
-        PrintStream out = mock(PrintStream.class);
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
         InputStream in = mock(InputStream.class);
         List<Book> books = new ArrayList<Book>();
         books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
         books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
         books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
-        UI ui = new UI(out, new UserInputHandler(in), new BookShelf(books));
+        Controller controller = new Controller(consoleUI, new UserInputHandler(in), new BookShelf(books));
 
-        assertThat(ui.handleUserInput("34"), is(true));
-        assertThat(ui.handleUserInput("e3"), is(true));
-        assertThat(ui.handleUserInput("-1"), is(true));
+        assertThat(controller.handleUserInput("34"), is(true));
+        assertThat(controller.handleUserInput("e3"), is(true));
+        assertThat(controller.handleUserInput("-1"), is(true));
 
-        verify(out, times(3)).println("Please select a valid option!");
+        verify(consoleUI, times(3)).printInvalidOptionMessage();
     }
 
 }
