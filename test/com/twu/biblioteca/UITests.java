@@ -7,6 +7,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 public class UITests {
@@ -33,7 +35,22 @@ public class UITests {
         ui.printMenu();
 
         verify(out).println("Menu:\n");
+        verify(out).println("(0) Quit");
         verify(out).println("(1) List of books");
+    }
+
+    @Test
+    public void exitsOnUserInputZero() {
+
+        PrintStream out = mock(PrintStream.class);
+        InputStream in = mock(InputStream.class);
+        List<Book> books = new ArrayList<Book>();
+        books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
+        books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
+        books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
+        UI ui = new UI(out, in, new BookShelf(books));
+
+        assertThat(ui.handleUserInput("0"), is(false));
     }
 
     @Test
@@ -47,8 +64,7 @@ public class UITests {
         books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
         UI ui = new UI(out, in, new BookShelf(books));
 
-        ui.handleUserInput("1");
-
+        assertThat(ui.handleUserInput("1"), is(true));
         verify(out).print("Clean Code: A Handbook of Agile Software Craftsmanship       | Robert C. Martin            | 2008\n" +
                 "The Pragmatic Programmer: From Journeyman to Master          | Andrew Hunt and Dave Thomas | 1999\n" +
                 "Code Complete: A Practical Handbook of Software Construction | Steve McConnell             | 2004\n");
@@ -66,9 +82,9 @@ public class UITests {
         books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
         UI ui = new UI(out, in, new BookShelf(books));
 
-        ui.handleUserInput("0");
-        ui.handleUserInput("2");
-        ui.handleUserInput("-1das3");
+        assertThat(ui.handleUserInput("2"), is(true));
+        assertThat(ui.handleUserInput("e3"), is(true));
+        assertThat(ui.handleUserInput("-1"), is(true));
 
         verify(out, times(3)).println("Please select a valid option!");
     }

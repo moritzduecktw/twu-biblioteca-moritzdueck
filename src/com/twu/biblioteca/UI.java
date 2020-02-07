@@ -6,6 +6,7 @@ import java.io.PrintStream;
 public class UI {
 
     private static final String LIST_BOOKS = "1";
+    private static final String QUIT = "0";
 
     private PrintStream out;
     private InputStream in;
@@ -21,10 +22,10 @@ public class UI {
     public void start() {
         printWelcomeMessage();
         UserInputHandler userInputHandler = new UserInputHandler(in);
-        while (true) {
+        do {
             printMenu();
-            handleUserInput(userInputHandler.askForNextString());
-        }
+        } while(handleUserInput(userInputHandler.askForNextString()));
+
     }
 
     public void printWelcomeMessage() {
@@ -37,15 +38,20 @@ public class UI {
 
     public void printMenu() {
         out.println("Menu:\n");
+        out.println("(0) Quit");
         out.println("(1) List of books");
     }
 
-    public void handleUserInput(String input) {
-        if (input == LIST_BOOKS) {
+    public boolean handleUserInput(String input) {
+        if (input.equals(QUIT)) {
+            return false;
+        } else if (input.equals(LIST_BOOKS)) {
             printAllBooks();
-        }else{
+        } else {
             printInvalidOptionMessage();
         }
+
+        return true;
     }
 
     private void printInvalidOptionMessage() {
