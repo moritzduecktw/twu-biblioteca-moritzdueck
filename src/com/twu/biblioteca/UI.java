@@ -57,6 +57,8 @@ public class UI {
         printBookCheckoutMessage();
         if(bookShelf.checkOut(userInputHandler.askForNextString())){
             out.println("Thank you! Enjoy the book");
+        }else{
+            out.println("Sorry, that book is not available");
         }
     }
 

@@ -106,7 +106,7 @@ public class UITests {
     }
 
     @Test
-    public void printCheckoutSuccessConfirmation() {
+    public void printCheckoutSuccess() {
         PrintStream out = mock(PrintStream.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
 
@@ -124,6 +124,24 @@ public class UITests {
         verify(out,times(1)).println("Thank you! Enjoy the book");
     }
 
+    @Test
+    public void printCheckoutFailure() {
+        PrintStream out = mock(PrintStream.class);
+        UserInputHandler userInputHandler = mock(UserInputHandler.class);
+
+        BookShelf bookShelf = mock(BookShelf.class);
+        when(bookShelf.checkOut(anyString())).thenReturn(true);
+
+        UI ui = new UI(out,userInputHandler,bookShelf);
+        ui.bookCheckoutMenu();
+
+        //only print on failure
+        when(bookShelf.checkOut(anyString())).thenReturn(false);
+        ui.bookCheckoutMenu();
+        ui.bookCheckoutMenu();
+
+        verify(out,times(2)).println("Sorry, that book is not available");
+    }
 
     @Test
     public void printsErrorOnWrongInput() {
