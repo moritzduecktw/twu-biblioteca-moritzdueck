@@ -13,6 +13,6 @@ public class UserInputHandler {
     }
 
     public String askForNextString() {
-        return scanner.next();
+        return scanner.nextLine();
     }
 }

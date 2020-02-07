@@ -4,6 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -32,5 +33,20 @@ public class BookShelfTests {
 
         assertThat(bookShelf.outputBookList(),is(expected));
 
+    }
+
+    @Test
+    public void checksOutBooks() {
+        List<Book> books = new ArrayList<Book>();
+        books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
+        books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
+        books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
+
+        BookShelf bookShelf = new BookShelf(books);
+
+        assertThat(bookShelf.checkOut("Clean Code: A Handbook of Agile Software Craftsmanship"), is(true));
+        assertThat(bookShelf.getCheckedOutBooks().get(0).getTitle(), is("Clean Code: A Handbook of Agile Software Craftsmanship"));
+        assertThat(bookShelf.getCheckedOutBooks().size(), is(1));
+        assertThat(bookShelf.getBooks().size(), is(2));
     }
 }

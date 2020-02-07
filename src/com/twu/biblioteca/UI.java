@@ -1,31 +1,28 @@
 package com.twu.biblioteca;
 
-import java.io.InputStream;
 import java.io.PrintStream;
 
 public class UI {
 
     private static final String LIST_BOOKS = "1";
     private static final String QUIT = "0";
+    private static final String CHECKOUT_BOOK = "2";
 
     private PrintStream out;
-    private InputStream in;
+    private UserInputHandler userInputHandler;
     private BookShelf bookShelf;
 
-    public UI(PrintStream out, InputStream in, BookShelf bookShelf) {
+    public UI(PrintStream out, UserInputHandler userInputHandler, BookShelf bookShelf) {
         this.out = out;
-        this.in = in;
+        this.userInputHandler = userInputHandler;
         this.bookShelf = bookShelf;
     }
 
-
     public void start() {
         printWelcomeMessage();
-        UserInputHandler userInputHandler = new UserInputHandler(in);
         do {
             printMenu();
-        } while(handleUserInput(userInputHandler.askForNextString()));
-
+        } while (handleUserInput(userInputHandler.askForNextString()));
     }
 
     public void printWelcomeMessage() {
@@ -40,6 +37,7 @@ public class UI {
         out.println("Menu:\n");
         out.println("(0) Quit");
         out.println("(1) List of books");
+        out.println("(2) Check-out a book");
     }
 
     public boolean handleUserInput(String input) {
@@ -47,11 +45,23 @@ public class UI {
             return false;
         } else if (input.equals(LIST_BOOKS)) {
             printAllBooks();
+        } else if (input.equals(CHECKOUT_BOOK)) {
+            bookCheckoutMenu();
         } else {
             printInvalidOptionMessage();
         }
-
         return true;
+    }
+
+    private void bookCheckoutMenu() {
+        do {
+            printBookCheckoutMessage();
+        } while (!bookShelf.checkOut(userInputHandler.askForNextString()));
+    }
+
+    public void printBookCheckoutMessage() {
+        out.println("Select one of the following books by giving the title:");
+        out.print(bookShelf.outputBookList());
     }
 
     private void printInvalidOptionMessage() {

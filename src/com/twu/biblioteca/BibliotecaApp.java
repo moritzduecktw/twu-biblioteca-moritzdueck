@@ -11,8 +11,7 @@ public class BibliotecaApp {
         books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
         books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
 
-
-        UI ui = new UI(System.out, System.in, new BookShelf(books));
+        UI ui = new UI(System.out, new UserInputHandler(System.in), new BookShelf(books));
         ui.start();
     }
 }

@@ -19,7 +19,7 @@ public class UITests {
         PrintStream out = mock(PrintStream.class);
         InputStream in = mock(InputStream.class);
 
-        UI ui = new UI(out, in, new BookShelf(new ArrayList<Book>()));
+        UI ui = new UI(out, new UserInputHandler(in), new BookShelf(new ArrayList<Book>()));
 
         ui.printWelcomeMessage();
 
@@ -30,13 +30,14 @@ public class UITests {
     public void printsMenu() {
         PrintStream out = mock(PrintStream.class);
         InputStream in = mock(InputStream.class);
-        UI ui = new UI(out, in, new BookShelf(new ArrayList<Book>()));
+        UI ui = new UI(out, new UserInputHandler(in), new BookShelf(new ArrayList<Book>()));
 
         ui.printMenu();
 
         verify(out).println("Menu:\n");
         verify(out).println("(0) Quit");
         verify(out).println("(1) List of books");
+        verify(out).println("(2) Check-out a book");
     }
 
     @Test
@@ -48,7 +49,7 @@ public class UITests {
         books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
         books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
         books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
-        UI ui = new UI(out, in, new BookShelf(books));
+        UI ui = new UI(out, new UserInputHandler(in), new BookShelf(books));
 
         assertThat(ui.handleUserInput("0"), is(false));
     }
@@ -62,13 +63,46 @@ public class UITests {
         books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
         books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
         books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
-        UI ui = new UI(out, in, new BookShelf(books));
+        UI ui = new UI(out, new UserInputHandler(in), new BookShelf(books));
 
         assertThat(ui.handleUserInput("1"), is(true));
         verify(out).print("Clean Code: A Handbook of Agile Software Craftsmanship       | Robert C. Martin            | 2008\n" +
                 "The Pragmatic Programmer: From Journeyman to Master          | Andrew Hunt and Dave Thomas | 1999\n" +
                 "Code Complete: A Practical Handbook of Software Construction | Steve McConnell             | 2004\n");
 
+    }
+
+    @Test
+    public void checksOutBooks() {
+        PrintStream out = mock(PrintStream.class);
+        UserInputHandler userInputHandler = mock(UserInputHandler.class);
+        when(userInputHandler.askForNextString()).thenReturn("Clean Code: A Handbook of Agile Software Craftsmanship");
+        BookShelf bookShelf = mock(BookShelf.class);
+        when(bookShelf.checkOut(anyString())).thenReturn(true);
+
+        UI ui = new UI(out, userInputHandler, bookShelf);
+        ui.handleUserInput("2");
+
+        verify(bookShelf).checkOut("Clean Code: A Handbook of Agile Software Craftsmanship");
+    }
+
+    @Test
+    public void printCheckoutMessage() {
+        PrintStream out = mock(PrintStream.class);
+        UserInputHandler userInputHandler = mock(UserInputHandler.class);
+        List<Book> books = new ArrayList<Book>();
+        books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
+        books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
+        books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
+        BookShelf bookShelf = new BookShelf(books);
+
+        UI ui = new UI(out, userInputHandler, bookShelf);
+        ui.printBookCheckoutMessage();
+
+        verify(out).println("Select one of the following books by giving the title:");
+        verify(out).print("Clean Code: A Handbook of Agile Software Craftsmanship       | Robert C. Martin            | 2008\n" +
+                "The Pragmatic Programmer: From Journeyman to Master          | Andrew Hunt and Dave Thomas | 1999\n" +
+                "Code Complete: A Practical Handbook of Software Construction | Steve McConnell             | 2004\n");
     }
 
     @Test
@@ -80,9 +114,9 @@ public class UITests {
         books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
         books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
         books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
-        UI ui = new UI(out, in, new BookShelf(books));
+        UI ui = new UI(out, new UserInputHandler(in), new BookShelf(books));
 
-        assertThat(ui.handleUserInput("2"), is(true));
+        assertThat(ui.handleUserInput("34"), is(true));
         assertThat(ui.handleUserInput("e3"), is(true));
         assertThat(ui.handleUserInput("-1"), is(true));
 
