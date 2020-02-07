@@ -2,10 +2,11 @@ package com.twu.biblioteca;
 
 public class Controller {
 
-    private static final String LIST_BOOKS = "1";
     private static final String QUIT = "0";
-    private static final String CHECKOUT_BOOK = "2";
-    private static final String RETURN_BOOK = "3";
+    private static final String LIST_BOOKS = "1";
+    private static final String LIST_MOVIES = "2";
+    private static final String CHECKOUT_BOOK = "3";
+    private static final String RETURN_BOOK = "4";
     private final ConsoleUI consoleUI;
 
     private UserInputHandler userInputHandler;
@@ -29,6 +30,8 @@ public class Controller {
             return false;
         } else if (input.equals(LIST_BOOKS)) {
             consoleUI.listBooks();
+        } else if(input.equals(LIST_MOVIES)){
+            consoleUI.listMovies();
         } else if (input.equals(CHECKOUT_BOOK)) {
             checkoutBook();
         } else if( input.equals(RETURN_BOOK)){
@@ -49,7 +52,7 @@ public class Controller {
     }
 
 
-    private void returnBook() {
+    public void returnBook() {
         consoleUI.printSelectBookStatement();
         if(mediaRepository.returnBook(userInputHandler.askForNextString())){
             consoleUI.printReturnSuccessMessage();

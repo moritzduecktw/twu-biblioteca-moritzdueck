@@ -49,6 +49,16 @@ public class ControllerTests {
     }
 
     @Test
+    public void listsMoviesByMenu() {
+
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
+        Controller controller = new Controller(consoleUI, new UserInputHandler(mock(InputStream.class)), new MediaRepository(books, movies));
+
+        assertThat(controller.handleUserInput("2"), is(true));
+        verify(consoleUI).listMovies();
+    }
+
+    @Test
     public void checksOutBooksByMenu() {
         ConsoleUI consoleUI = mock(ConsoleUI.class);
 
@@ -59,7 +69,7 @@ public class ControllerTests {
         when(mediaRepository.checkOut(anyString())).thenReturn(true);
 
         Controller controller = new Controller(consoleUI, userInputHandler, mediaRepository);
-        controller.handleUserInput("2");
+        controller.handleUserInput("3");
 
         verify(mediaRepository).checkOut("Clean Code: A Handbook of Agile Software Craftsmanship");
         verify(consoleUI).printCheckoutSuccessMessage();
@@ -75,7 +85,7 @@ public class ControllerTests {
         when(mediaRepository.returnBook("book1")).thenReturn(true);
 
         Controller controller = new Controller(consoleUI, userInputHandler, mediaRepository);
-        controller.handleUserInput("3");
+        controller.handleUserInput("4");
 
         verify(mediaRepository).returnBook("book1");
         verify(consoleUI).printReturnSuccessMessage();
@@ -129,7 +139,7 @@ public class ControllerTests {
         when(mediaRepository.returnBook("book1")).thenReturn(true);
 
         Controller controller = new Controller(consoleUI, userInputHandler, mediaRepository);
-        controller.handleUserInput("3");
+        controller.returnBook();
 
         verify(mediaRepository).returnBook("book1");
         verify(consoleUI).printReturnSuccessMessage();
@@ -145,7 +155,7 @@ public class ControllerTests {
         when(mediaRepository.returnBook("book2")).thenReturn(false);
 
         Controller controller = new Controller(consoleUI, userInputHandler, mediaRepository);
-        controller.handleUserInput("3");
+        controller.returnBook();
 
         verify(mediaRepository).returnBook("book1");
         verify(consoleUI).printReturnFailureMessage();

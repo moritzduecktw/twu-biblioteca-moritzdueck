@@ -30,7 +30,8 @@ public class ConsoleUITests {
         verify(out).println("Menu:\n");
         verify(out).println("(0) Quit");
         verify(out).println("(1) List of books");
-        verify(out).println("(2) Check-out a book");
-        verify(out).println("(3) Return a book");
+        verify(out).println("(2) List of movies");
+        verify(out).println("(3) Check-out a book");
+        verify(out).println("(4) Return a book");
     }
 }

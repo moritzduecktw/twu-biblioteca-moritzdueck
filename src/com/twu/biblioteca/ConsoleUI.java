@@ -20,8 +20,9 @@ public class ConsoleUI {
         out.println("Menu:\n");
         out.println("(0) Quit");
         out.println("(1) List of books");
-        out.println("(2) Check-out a book");
-        out.println("(3) Return a book");
+        out.println("(2) List of movies");
+        out.println("(3) Check-out a book");
+        out.println("(4) Return a book");
     }
 
     public void printCheckoutSuccessMessage() {
@@ -50,5 +51,9 @@ public class ConsoleUI {
 
     public void listBooks() {
         out.print(mediaRepository.outputBookList());
+    }
+
+    public void listMovies() {
+        out.print(mediaRepository.outputMovieList());
     }
 }

@@ -6,9 +6,11 @@ import java.util.List;
 public class MediaRepository {
     private List<Book> checkedOutBooks;
     private List<Book> books;
+    private List<Movie> movies;
 
     public MediaRepository(List<Book> books, List<Movie> movies) {
         this.books = books;
+        this.movies = movies;
         this.checkedOutBooks = new ArrayList<Book>();
     }
 
@@ -24,37 +26,56 @@ public class MediaRepository {
 
         StringBuffer result = new StringBuffer();
 
-        int maxLengthTitle = getMaxTitleLength();
-        int maxLengthAuthor = getMaxAuthorLength();
+        int maxLengthTitle = books.stream()
+                .map(Book::getTitle)
+                .map(String::length)
+                .reduce(0, Integer::max);
+        int maxLengthAuthor = books.stream()
+                .map(Book::getAuthor)
+                .map(String::length)
+                .reduce(0, Integer::max);
 
         for (Book book : books) {
-            result.append(getFormattedTitle(maxLengthTitle, book.getTitle()) + " | " + getFormattedAuthor(maxLengthAuthor, book) + " | " + book.getYear());
+            result.append(paddString(book.getTitle(), maxLengthTitle));
+            result.append( " | ");
+            result.append( paddString(book.getAuthor(), maxLengthAuthor));
+            result.append( " | ");
+            result.append( book.getYear());
             result.append("\n");
         }
 
         return result.toString();
     }
 
-    private Integer getMaxAuthorLength() {
-        return books.stream()
-                .map(Book::getAuthor)
+    public String outputMovieList() {
+        StringBuffer result = new StringBuffer();
+
+        int maxNameLength = movies.stream()
+                .map(Movie::getName)
                 .map(String::length)
                 .reduce(0, Integer::max);
-    }
 
-    private Integer getMaxTitleLength() {
-        return books.stream()
-                .map(Book::getTitle)
+        int maxDirectorLength = movies.stream()
+                .map(Movie::getDirector)
                 .map(String::length)
                 .reduce(0, Integer::max);
+
+        for (Movie movie : movies) {
+            result.append(paddString(movie.getName(), maxNameLength));
+            result.append( " | ");
+            result.append(movie.getYear());
+            result.append( " | ");
+            result.append(paddString(movie.getDirector(), maxDirectorLength));
+            result.append( " | ");
+            result.append(movie.getRating().toString());
+            result.append("\n");
+        }
+
+        return result.toString();
     }
 
-    private String getFormattedAuthor(int maxLengthAuthor, Book book) {
-        return String.format("%-" + maxLengthAuthor + "s", book.getAuthor());
-    }
-
-    private String getFormattedTitle(int maxLengthTitle, String title) {
-        return String.format("%-" + maxLengthTitle + "s", title);
+    private String paddString(String string, int targetLength) {
+        return String.format("%-" + targetLength + "s", string);
     }
 
     public boolean checkOut(String titleToCheckOut) {
@@ -75,7 +96,7 @@ public class MediaRepository {
     public boolean returnBook(String titleToReturn) {
         for (int i = 0; i < checkedOutBooks.size(); i++) {
             Book book = checkedOutBooks.get(i);
-            if(book.getTitle().equals(titleToReturn)){
+            if (book.getTitle().equals(titleToReturn)) {
                 this.books.add(book);
                 this.checkedOutBooks.remove(book);
                 return true;
@@ -83,6 +104,5 @@ public class MediaRepository {
         }
         return false;
     }
-
 
 }

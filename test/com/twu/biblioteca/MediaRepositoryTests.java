@@ -41,6 +41,18 @@ public class MediaRepositoryTests {
     }
 
     @Test
+    public void moviesAsAlignedTable() {
+        MediaRepository mediaRepository = new MediaRepository(books, movies);
+        String expected = "Chef  | 2014 | Jon Favreau      | 10\n" +
+                "RED   | 2010 | Robert Schwentke | 06\n" +
+                "Joker | 2019 | Todd Phillips    | NA\n";
+
+        assertThat(mediaRepository.outputMovieList(), is(expected));
+
+    }
+
+
+    @Test
     public void checksOutBook() {
         List<Book> books = new ArrayList<Book>();
         books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
