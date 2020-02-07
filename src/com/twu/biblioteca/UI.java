@@ -7,6 +7,7 @@ public class UI {
     private static final String LIST_BOOKS = "1";
     private static final String QUIT = "0";
     private static final String CHECKOUT_BOOK = "2";
+    private static final String RETURN_BOOK = "3";
 
     private PrintStream out;
     private UserInputHandler userInputHandler;
@@ -34,6 +35,7 @@ public class UI {
         out.println("(0) Quit");
         out.println("(1) List of books");
         out.println("(2) Check-out a book");
+        out.println("(3) Return a book");
     }
 
     public boolean handleUserInput(String input) {
@@ -43,6 +45,8 @@ public class UI {
             printAllBooks();
         } else if (input.equals(CHECKOUT_BOOK)) {
             bookCheckoutMenu();
+        } else if( input.equals(RETURN_BOOK)){
+            bookReturnMenu();
         } else {
             printInvalidOptionMessage();
         }
@@ -54,7 +58,7 @@ public class UI {
     }
 
     public void bookCheckoutMenu() {
-        printBookCheckoutMessage();
+        printSelectBookStatement();
         if(bookShelf.checkOut(userInputHandler.askForNextString())){
             out.println("Thank you! Enjoy the book");
         }else{
@@ -62,9 +66,16 @@ public class UI {
         }
     }
 
-    public void printBookCheckoutMessage() {
-        out.println("Select one of the following books by giving the title:");
-        printAllBooks();
+
+    private void bookReturnMenu() {
+        printSelectBookStatement();
+        if(bookShelf.returnBook(userInputHandler.askForNextString())){
+            out.println("Thank you for returning the book");
+        }
+    }
+
+    public void printSelectBookStatement() {
+        out.println("Select one of the books by giving the title:");
     }
 
     private void printInvalidOptionMessage() {

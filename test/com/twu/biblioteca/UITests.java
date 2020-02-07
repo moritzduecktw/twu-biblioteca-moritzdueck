@@ -38,6 +38,7 @@ public class UITests {
         verify(out).println("(0) Quit");
         verify(out).println("(1) List of books");
         verify(out).println("(2) Check-out a book");
+        verify(out).println("(3) Return a book");
     }
 
     @Test
@@ -87,22 +88,19 @@ public class UITests {
     }
 
     @Test
-    public void printCheckoutMessage() {
+    public void returnsBooks() {
         PrintStream out = mock(PrintStream.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
-        List<Book> books = new ArrayList<Book>();
-        books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
-        books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
-        books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
-        BookShelf bookShelf = new BookShelf(books);
+
+        when(userInputHandler.askForNextString()).thenReturn("book1");
+        BookShelf bookShelf = mock(BookShelf.class);
+        when(bookShelf.returnBook("book1")).thenReturn(true);
 
         UI ui = new UI(out, userInputHandler, bookShelf);
-        ui.printBookCheckoutMessage();
+        ui.handleUserInput("3");
 
-        verify(out).println("Select one of the following books by giving the title:");
-        verify(out).print("Clean Code: A Handbook of Agile Software Craftsmanship       | Robert C. Martin            | 2008\n" +
-                "The Pragmatic Programmer: From Journeyman to Master          | Andrew Hunt and Dave Thomas | 1999\n" +
-                "Code Complete: A Practical Handbook of Software Construction | Steve McConnell             | 2004\n");
+        verify(bookShelf).returnBook("book1");
+        verify(out).println("Thank you for returning the book");
     }
 
     @Test

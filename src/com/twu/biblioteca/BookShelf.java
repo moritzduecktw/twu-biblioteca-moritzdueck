@@ -12,6 +12,14 @@ public class BookShelf {
         this.checkedOutBooks = new ArrayList<Book>();
     }
 
+    public List<Book> getCheckedOutBooks() {
+        return this.checkedOutBooks;
+    }
+
+    public List<Book> getBooks() {
+        return this.books;
+    }
+
     public String outputBookList() {
 
         StringBuffer result = new StringBuffer();
@@ -63,11 +71,16 @@ public class BookShelf {
         return false;
     }
 
-    public List<Book> getCheckedOutBooks() {
-        return this.checkedOutBooks;
-    }
 
-    public List<Book> getBooks() {
-        return this.books;
+    public boolean returnBook(String titleToReturn) {
+        for (int i = 0; i < checkedOutBooks.size(); i++) {
+            Book book = checkedOutBooks.get(i);
+            if(book.getTitle().equals(titleToReturn)){
+                this.books.add(book);
+                this.checkedOutBooks.remove(book);
+                return true;
+            }
+        }
+        return false;
     }
 }
