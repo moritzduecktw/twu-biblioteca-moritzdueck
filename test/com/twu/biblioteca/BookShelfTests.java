@@ -23,7 +23,7 @@ public class BookShelfTests {
     }
 
     @Test
-    public void printBooksAsAlignedTable() {
+    public void booksAsAlignedTable() {
 
         BookShelf bookShelf = new BookShelf(books);
         String expected = "Clean Code: A Handbook of Agile Software Craftsmanship       | Robert C. Martin            | 2008\n"
@@ -35,7 +35,7 @@ public class BookShelfTests {
     }
 
     @Test
-    public void checksOutBooks() {
+    public void checksOutBook() {
         List<Book> books = new ArrayList<Book>();
         books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
         books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));

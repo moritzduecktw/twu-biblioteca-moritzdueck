@@ -28,7 +28,7 @@ public class ControllerTests {
     }
 
     @Test
-    public void printsAllBooksByMenu() {
+    public void listsBooksByMenu() {
 
         ConsoleUI consoleUI = mock(ConsoleUI.class);
         InputStream in = mock(InputStream.class);
@@ -39,7 +39,7 @@ public class ControllerTests {
         Controller controller = new Controller(consoleUI, new UserInputHandler(in), new BookShelf(books));
 
         assertThat(controller.handleUserInput("1"), is(true));
-        verify(consoleUI).printAllBooks();
+        verify(consoleUI).listBooks();
     }
 
     @Test
@@ -81,12 +81,12 @@ public class ControllerTests {
         when(bookShelf.checkOut(anyString())).thenReturn(true);
 
         Controller controller = new Controller(consoleUI,userInputHandler,bookShelf);
-        controller.bookCheckoutMenu();
+        controller.checkoutBook();
 
         //only print on success
         when(bookShelf.checkOut(anyString())).thenReturn(false);
-        controller.bookCheckoutMenu();
-        controller.bookCheckoutMenu();
+        controller.checkoutBook();
+        controller.checkoutBook();
 
         verify(consoleUI,times(1)).printCheckoutSuccessMessage();
     }
@@ -100,12 +100,12 @@ public class ControllerTests {
         when(bookShelf.checkOut(anyString())).thenReturn(true);
 
         Controller controller = new Controller(consoleUI,userInputHandler,bookShelf);
-        controller.bookCheckoutMenu();
+        controller.checkoutBook();
 
         //only print on failure
         when(bookShelf.checkOut(anyString())).thenReturn(false);
-        controller.bookCheckoutMenu();
-        controller.bookCheckoutMenu();
+        controller.checkoutBook();
+        controller.checkoutBook();
 
         verify(consoleUI,times(2)).printCheckoutFailureMessage();
     }
@@ -143,7 +143,7 @@ public class ControllerTests {
     }
 
     @Test
-    public void printsErrorOnWrongInput() {
+    public void printsErrorOnWrongMenuInput() {
 
         ConsoleUI consoleUI = mock(ConsoleUI.class);
         InputStream in = mock(InputStream.class);

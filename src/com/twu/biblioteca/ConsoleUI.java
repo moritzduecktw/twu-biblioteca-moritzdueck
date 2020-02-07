@@ -48,7 +48,7 @@ public class ConsoleUI {
         out.println("Please select a valid option!");
     }
 
-    public void printAllBooks() {
+    public void listBooks() {
         out.print(bookShelf.outputBookList());
     }
 }

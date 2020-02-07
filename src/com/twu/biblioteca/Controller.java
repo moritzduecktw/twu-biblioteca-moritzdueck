@@ -28,18 +28,18 @@ public class Controller {
         if (input.equals(QUIT)) {
             return false;
         } else if (input.equals(LIST_BOOKS)) {
-            consoleUI.printAllBooks();
+            consoleUI.listBooks();
         } else if (input.equals(CHECKOUT_BOOK)) {
-            bookCheckoutMenu();
+            checkoutBook();
         } else if( input.equals(RETURN_BOOK)){
-            bookReturnMenu();
+            returnBook();
         } else {
             consoleUI.printInvalidOptionMessage();
         }
         return true;
     }
 
-    public void bookCheckoutMenu() {
+    public void checkoutBook() {
         consoleUI.printSelectBookStatement();
         if(bookShelf.checkOut(userInputHandler.askForNextString())){
             consoleUI.printCheckoutSuccessMessage();
@@ -49,7 +49,7 @@ public class Controller {
     }
 
 
-    private void bookReturnMenu() {
+    private void returnBook() {
         consoleUI.printSelectBookStatement();
         if(bookShelf.returnBook(userInputHandler.askForNextString())){
             consoleUI.printReturnSuccessMessage();
