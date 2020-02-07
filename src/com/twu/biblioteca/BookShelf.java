@@ -1,11 +1,10 @@
 package com.twu.biblioteca;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class BookShelf {
-    private ArrayList<Book> checkedOutBooks;
+    private List<Book> checkedOutBooks;
     private List<Book> books;
 
     public BookShelf(List<Book> books) {
@@ -45,7 +44,6 @@ public class BookShelf {
     private String getFormattedAuthor(int maxLengthAuthor, Book book) {
         return String.format("%-" + maxLengthAuthor + "s", book.getAuthor());
     }
-
 
     private String getFormattedTitle(int maxLengthTitle, String title) {
         return String.format("%-" + maxLengthTitle + "s", title);

@@ -29,10 +29,6 @@ public class UI {
         out.println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
     }
 
-    public void printAllBooks() {
-        out.print(bookShelf.outputBookList());
-    }
-
     public void printMenu() {
         out.println("Menu:\n");
         out.println("(0) Quit");
@@ -53,15 +49,20 @@ public class UI {
         return true;
     }
 
-    private void bookCheckoutMenu() {
-        do {
-            printBookCheckoutMessage();
-        } while (!bookShelf.checkOut(userInputHandler.askForNextString()));
+    public void printAllBooks() {
+        out.print(bookShelf.outputBookList());
+    }
+
+    public void bookCheckoutMenu() {
+        printBookCheckoutMessage();
+        if(bookShelf.checkOut(userInputHandler.askForNextString())){
+            out.println("Thank you! Enjoy the book");
+        }
     }
 
     public void printBookCheckoutMessage() {
         out.println("Select one of the following books by giving the title:");
-        out.print(bookShelf.outputBookList());
+        printAllBooks();
     }
 
     private void printInvalidOptionMessage() {
