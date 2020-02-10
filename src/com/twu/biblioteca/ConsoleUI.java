@@ -25,6 +25,7 @@ public class ConsoleUI {
         out.println("(3) Check-out a book");
         out.println("(4) Return a book");
         out.println("(5) Check-out a movie");
+        out.println("(6) Return a movie");
     }
 
     public void printCheckoutSuccessMessage() {

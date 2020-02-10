@@ -59,10 +59,10 @@ public class MediaRepository {
         return false;
     }
 
-    public boolean checkOutMovie(String name) {
+    public boolean checkOutMovie(String nameToCheckout) {
         for (int i = 0; i < movies.size(); i++) {
             Movie movie = movies.get(i);
-            if(movie.getName().equals(name)){
+            if(movie.getName().equals(nameToCheckout)){
                 checkedOutMovies.add(movie);
                 movies.remove(movie);
                 return true;
@@ -72,6 +72,15 @@ public class MediaRepository {
     }
 
 
-
-
+    public boolean returnMovie(String nameToReturn) {
+        for (int i = 0; i < checkedOutMovies.size(); i++) {
+            Movie movie = checkedOutMovies.get(i);
+            if(movie.getName().equals(nameToReturn)){
+                checkedOutMovies.remove(movie);
+                movies.add(movie);
+                return true;
+            }
+        }
+        return false;
+    }
 }

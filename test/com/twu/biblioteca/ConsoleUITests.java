@@ -37,6 +37,7 @@ public class ConsoleUITests {
         verify(out).println("(3) Check-out a book");
         verify(out).println("(4) Return a book");
         verify(out).println("(5) Check-out a movie");
+        verify(out).println("(6) Return a movie");
 
     }
 

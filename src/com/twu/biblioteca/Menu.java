@@ -8,6 +8,7 @@ public class Menu {
     private static final String CHECKOUT_BOOK = "3";
     private static final String RETURN_BOOK = "4";
     private static final String CHECKOUT_MOVIE = "5";
+    private static final String RETURN_MOVIE = "6";
     private final ConsoleUI consoleUI;
 
     private UserInputHandler userInputHandler;
@@ -39,6 +40,8 @@ public class Menu {
             returnBook();
         } else if( input.equals(CHECKOUT_MOVIE)){
             checkoutMovie();
+        } else if(input.equals(RETURN_MOVIE)){
+            returnMovie();
         } else {
             consoleUI.printInvalidOptionMessage();
         }
@@ -73,5 +76,16 @@ public class Menu {
             consoleUI.printReturnFailureMessage();
         }
     }
+
+
+    private void returnMovie() {
+        consoleUI.printSelectMovieStatement();
+        if(mediaRepository.returnMovie(userInputHandler.askForNextString())){
+            consoleUI.printReturnSuccessMessage();
+        }else {
+            consoleUI.printReturnFailureMessage();
+        }
+    }
+
 
 }
