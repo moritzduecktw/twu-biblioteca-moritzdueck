@@ -14,71 +14,19 @@ public class MediaRepository {
         this.checkedOutBooks = new ArrayList<Book>();
     }
 
-    public List<Book> getCheckedOutBooks() {
-        return this.checkedOutBooks;
-    }
-
     public List<Book> getBooks() {
         return this.books;
     }
 
-    public String outputBookList() {
-
-        StringBuffer result = new StringBuffer();
-
-        int maxLengthTitle = books.stream()
-                .map(Book::getTitle)
-                .map(String::length)
-                .reduce(0, Integer::max);
-        int maxLengthAuthor = books.stream()
-                .map(Book::getAuthor)
-                .map(String::length)
-                .reduce(0, Integer::max);
-
-        for (Book book : books) {
-            result.append(paddString(book.getTitle(), maxLengthTitle));
-            result.append( " | ");
-            result.append( paddString(book.getAuthor(), maxLengthAuthor));
-            result.append( " | ");
-            result.append( book.getYear());
-            result.append("\n");
-        }
-
-        return result.toString();
+    public List<Movie> getMovies() {
+        return movies;
     }
 
-    public String outputMovieList() {
-        StringBuffer result = new StringBuffer();
-
-        int maxNameLength = movies.stream()
-                .map(Movie::getName)
-                .map(String::length)
-                .reduce(0, Integer::max);
-
-        int maxDirectorLength = movies.stream()
-                .map(Movie::getDirector)
-                .map(String::length)
-                .reduce(0, Integer::max);
-
-        for (Movie movie : movies) {
-            result.append(paddString(movie.getName(), maxNameLength));
-            result.append( " | ");
-            result.append(movie.getYear());
-            result.append( " | ");
-            result.append(paddString(movie.getDirector(), maxDirectorLength));
-            result.append( " | ");
-            result.append(movie.getRating().toString());
-            result.append("\n");
-        }
-
-        return result.toString();
+    public List<Book> getCheckedOutBooks() {
+        return this.checkedOutBooks;
     }
 
-    private String paddString(String string, int targetLength) {
-        return String.format("%-" + targetLength + "s", string);
-    }
-
-    public boolean checkOut(String titleToCheckOut) {
+    public boolean checkOutBook(String titleToCheckOut) {
         for (int i = 0; i < books.size(); i++) {
             Book book = books.get(i);
 

@@ -11,7 +11,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
-public class ControllerTests {
+public class MenuTests {
 
     private static List<Movie> movies;
     private static List<Book> books;
@@ -34,17 +34,17 @@ public class ControllerTests {
     @Test
     public void exitsByMenu() {
 
-        Controller controller = new Controller(mock(ConsoleUI.class), new UserInputHandler(mock(InputStream.class)), new MediaRepository(books, movies));
-        assertThat(controller.handleUserInput("0"), is(false));
+        Menu menu = new Menu(mock(ConsoleUI.class), new UserInputHandler(mock(InputStream.class)), new MediaRepository(books, movies));
+        assertThat(menu.handleUserInput("0"), is(false));
     }
 
     @Test
     public void listsBooksByMenu() {
 
         ConsoleUI consoleUI = mock(ConsoleUI.class);
-        Controller controller = new Controller(consoleUI, new UserInputHandler(mock(InputStream.class)), new MediaRepository(books, movies));
+        Menu menu = new Menu(consoleUI, new UserInputHandler(mock(InputStream.class)), new MediaRepository(books, movies));
 
-        assertThat(controller.handleUserInput("1"), is(true));
+        assertThat(menu.handleUserInput("1"), is(true));
         verify(consoleUI).listBooks();
     }
 
@@ -52,9 +52,9 @@ public class ControllerTests {
     public void listsMoviesByMenu() {
 
         ConsoleUI consoleUI = mock(ConsoleUI.class);
-        Controller controller = new Controller(consoleUI, new UserInputHandler(mock(InputStream.class)), new MediaRepository(books, movies));
+        Menu menu = new Menu(consoleUI, new UserInputHandler(mock(InputStream.class)), new MediaRepository(books, movies));
 
-        assertThat(controller.handleUserInput("2"), is(true));
+        assertThat(menu.handleUserInput("2"), is(true));
         verify(consoleUI).listMovies();
     }
 
@@ -66,12 +66,12 @@ public class ControllerTests {
         when(userInputHandler.askForNextString()).thenReturn("Clean Code: A Handbook of Agile Software Craftsmanship");
 
         MediaRepository mediaRepository = mock(MediaRepository.class);
-        when(mediaRepository.checkOut(anyString())).thenReturn(true);
+        when(mediaRepository.checkOutBook(anyString())).thenReturn(true);
 
-        Controller controller = new Controller(consoleUI, userInputHandler, mediaRepository);
-        controller.handleUserInput("3");
+        Menu menu = new Menu(consoleUI, userInputHandler, mediaRepository);
+        menu.handleUserInput("3");
 
-        verify(mediaRepository).checkOut("Clean Code: A Handbook of Agile Software Craftsmanship");
+        verify(mediaRepository).checkOutBook("Clean Code: A Handbook of Agile Software Craftsmanship");
         verify(consoleUI).printCheckoutSuccessMessage();
     }
 
@@ -79,13 +79,12 @@ public class ControllerTests {
     public void returnsBooksByMenu() {
         ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
-
         when(userInputHandler.askForNextString()).thenReturn("book1");
         MediaRepository mediaRepository = mock(MediaRepository.class);
         when(mediaRepository.returnBook("book1")).thenReturn(true);
+        Menu menu = new Menu(consoleUI, userInputHandler, mediaRepository);
 
-        Controller controller = new Controller(consoleUI, userInputHandler, mediaRepository);
-        controller.handleUserInput("4");
+        menu.handleUserInput("4");
 
         verify(mediaRepository).returnBook("book1");
         verify(consoleUI).printReturnSuccessMessage();
@@ -97,15 +96,15 @@ public class ControllerTests {
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
 
         MediaRepository mediaRepository = mock(MediaRepository.class);
-        when(mediaRepository.checkOut(anyString())).thenReturn(true);
+        when(mediaRepository.checkOutBook(anyString())).thenReturn(true);
 
-        Controller controller = new Controller(consoleUI,userInputHandler, mediaRepository);
-        controller.checkoutBook();
+        Menu menu = new Menu(consoleUI,userInputHandler, mediaRepository);
+        menu.checkoutBook();
 
         //only print on success
-        when(mediaRepository.checkOut(anyString())).thenReturn(false);
-        controller.checkoutBook();
-        controller.checkoutBook();
+        when(mediaRepository.checkOutBook(anyString())).thenReturn(false);
+        menu.checkoutBook();
+        menu.checkoutBook();
 
         verify(consoleUI,times(1)).printCheckoutSuccessMessage();
     }
@@ -116,15 +115,15 @@ public class ControllerTests {
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
 
         MediaRepository mediaRepository = mock(MediaRepository.class);
-        when(mediaRepository.checkOut(anyString())).thenReturn(true);
+        when(mediaRepository.checkOutBook(anyString())).thenReturn(true);
 
-        Controller controller = new Controller(consoleUI,userInputHandler, mediaRepository);
-        controller.checkoutBook();
+        Menu menu = new Menu(consoleUI,userInputHandler, mediaRepository);
+        menu.checkoutBook();
 
         //only print on failure
-        when(mediaRepository.checkOut(anyString())).thenReturn(false);
-        controller.checkoutBook();
-        controller.checkoutBook();
+        when(mediaRepository.checkOutBook(anyString())).thenReturn(false);
+        menu.checkoutBook();
+        menu.checkoutBook();
 
         verify(consoleUI,times(2)).printCheckoutFailureMessage();
     }
@@ -138,8 +137,8 @@ public class ControllerTests {
         MediaRepository mediaRepository = mock(MediaRepository.class);
         when(mediaRepository.returnBook("book1")).thenReturn(true);
 
-        Controller controller = new Controller(consoleUI, userInputHandler, mediaRepository);
-        controller.returnBook();
+        Menu menu = new Menu(consoleUI, userInputHandler, mediaRepository);
+        menu.returnBook();
 
         verify(mediaRepository).returnBook("book1");
         verify(consoleUI).printReturnSuccessMessage();
@@ -154,8 +153,8 @@ public class ControllerTests {
         MediaRepository mediaRepository = mock(MediaRepository.class);
         when(mediaRepository.returnBook("book2")).thenReturn(false);
 
-        Controller controller = new Controller(consoleUI, userInputHandler, mediaRepository);
-        controller.returnBook();
+        Menu menu = new Menu(consoleUI, userInputHandler, mediaRepository);
+        menu.returnBook();
 
         verify(mediaRepository).returnBook("book1");
         verify(consoleUI).printReturnFailureMessage();
@@ -166,11 +165,11 @@ public class ControllerTests {
 
         ConsoleUI consoleUI = mock(ConsoleUI.class);
         InputStream in = mock(InputStream.class);
-        Controller controller = new Controller(consoleUI, new UserInputHandler(in), new MediaRepository(books, movies));
+        Menu menu = new Menu(consoleUI, new UserInputHandler(in), new MediaRepository(books, movies));
 
-        assertThat(controller.handleUserInput("34"), is(true));
-        assertThat(controller.handleUserInput("e3"), is(true));
-        assertThat(controller.handleUserInput("-1"), is(true));
+        assertThat(menu.handleUserInput("34"), is(true));
+        assertThat(menu.handleUserInput("e3"), is(true));
+        assertThat(menu.handleUserInput("-1"), is(true));
 
         verify(consoleUI, times(3)).printInvalidOptionMessage();
     }

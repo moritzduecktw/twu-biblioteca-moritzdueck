@@ -1,6 +1,6 @@
 package com.twu.biblioteca;
 
-public class Controller {
+public class Menu {
 
     private static final String QUIT = "0";
     private static final String LIST_BOOKS = "1";
@@ -12,7 +12,7 @@ public class Controller {
     private UserInputHandler userInputHandler;
     private MediaRepository mediaRepository;
 
-    public Controller(ConsoleUI consoleUI, UserInputHandler userInputHandler, MediaRepository mediaRepository) {
+    public Menu(ConsoleUI consoleUI, UserInputHandler userInputHandler, MediaRepository mediaRepository) {
         this.consoleUI = consoleUI;
         this.userInputHandler = userInputHandler;
         this.mediaRepository = mediaRepository;
@@ -44,7 +44,7 @@ public class Controller {
 
     public void checkoutBook() {
         consoleUI.printSelectBookStatement();
-        if(mediaRepository.checkOut(userInputHandler.askForNextString())){
+        if(mediaRepository.checkOutBook(userInputHandler.askForNextString())){
             consoleUI.printCheckoutSuccessMessage();
         }else{
             consoleUI.printCheckoutFailureMessage();

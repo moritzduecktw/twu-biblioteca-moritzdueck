@@ -1,6 +1,7 @@
 package com.twu.biblioteca;
 
 import java.io.PrintStream;
+import java.util.List;
 
 public class ConsoleUI {
 
@@ -50,10 +51,63 @@ public class ConsoleUI {
     }
 
     public void listBooks() {
-        out.print(mediaRepository.outputBookList());
+
+        List<Book> books = mediaRepository.getBooks();
+
+        StringBuffer result = new StringBuffer();
+
+        int maxLengthTitle = books.stream()
+                .map(Book::getTitle)
+                .map(String::length)
+                .reduce(0, Integer::max);
+        int maxLengthAuthor = books.stream()
+                .map(Book::getAuthor)
+                .map(String::length)
+                .reduce(0, Integer::max);
+
+        for (Book book : books) {
+            result.append(paddString(book.getTitle(), maxLengthTitle));
+            result.append( " | ");
+            result.append( paddString(book.getAuthor(), maxLengthAuthor));
+            result.append( " | ");
+            result.append( book.getYear());
+            result.append("\n");
+        }
+
+        out.print(result.toString());
     }
 
     public void listMovies() {
-        out.print(mediaRepository.outputMovieList());
+        List<Movie> movies = mediaRepository.getMovies();
+        StringBuffer result = new StringBuffer();
+
+        int maxNameLength = movies.stream()
+                .map(Movie::getName)
+                .map(String::length)
+                .reduce(0, Integer::max);
+
+        int maxDirectorLength = movies.stream()
+                .map(Movie::getDirector)
+                .map(String::length)
+                .reduce(0, Integer::max);
+
+        for (Movie movie : movies) {
+            result.append(paddString(movie.getName(), maxNameLength));
+            result.append(" | ");
+            result.append(movie.getYear());
+            result.append(" | ");
+            result.append(paddString(movie.getDirector(), maxDirectorLength));
+            result.append(" | ");
+            result.append(movie.getRating().toString());
+            result.append("\n");
+        }
+
+        out.print(result.toString());
+
+    }
+
+
+    private String paddString(String string, int targetLength) {
+        return String.format("%-" + targetLength + "s", string);
     }
 }
