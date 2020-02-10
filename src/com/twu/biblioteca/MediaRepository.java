@@ -7,11 +7,13 @@ public class MediaRepository {
     private List<Book> checkedOutBooks;
     private List<Book> books;
     private List<Movie> movies;
+    private List<Movie> checkedOutMovies;
 
     public MediaRepository(List<Book> books, List<Movie> movies) {
         this.books = books;
         this.movies = movies;
         this.checkedOutBooks = new ArrayList<Book>();
+        this.checkedOutMovies = new ArrayList<Movie>();
     }
 
     public List<Book> getBooks() {
@@ -24,6 +26,10 @@ public class MediaRepository {
 
     public List<Book> getCheckedOutBooks() {
         return this.checkedOutBooks;
+    }
+
+    public List<Movie> getCheckedOutMovies() {
+        return this.checkedOutMovies;
     }
 
     public boolean checkOutBook(String titleToCheckOut) {
@@ -52,5 +58,20 @@ public class MediaRepository {
         }
         return false;
     }
+
+    public boolean checkOutMovie(String name) {
+        for (int i = 0; i < movies.size(); i++) {
+            Movie movie = movies.get(i);
+            if(movie.getName().equals(name)){
+                checkedOutMovies.add(movie);
+                movies.remove(movie);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
 
 }

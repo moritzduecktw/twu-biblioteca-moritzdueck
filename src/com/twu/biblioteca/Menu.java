@@ -7,6 +7,7 @@ public class Menu {
     private static final String LIST_MOVIES = "2";
     private static final String CHECKOUT_BOOK = "3";
     private static final String RETURN_BOOK = "4";
+    private static final String CHECKOUT_MOVIE = "5";
     private final ConsoleUI consoleUI;
 
     private UserInputHandler userInputHandler;
@@ -36,15 +37,27 @@ public class Menu {
             checkoutBook();
         } else if( input.equals(RETURN_BOOK)){
             returnBook();
+        } else if( input.equals(CHECKOUT_MOVIE)){
+            checkoutMovie();
         } else {
             consoleUI.printInvalidOptionMessage();
         }
         return true;
     }
 
+
     public void checkoutBook() {
         consoleUI.printSelectBookStatement();
         if(mediaRepository.checkOutBook(userInputHandler.askForNextString())){
+            consoleUI.printCheckoutSuccessMessage();
+        }else{
+            consoleUI.printCheckoutFailureMessage();
+        }
+    }
+
+    private void checkoutMovie() {
+        consoleUI.printSelectMovieStatement();
+        if(mediaRepository.checkOutMovie(userInputHandler.askForNextString())){
             consoleUI.printCheckoutSuccessMessage();
         }else{
             consoleUI.printCheckoutFailureMessage();

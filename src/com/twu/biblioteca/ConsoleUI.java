@@ -24,22 +24,23 @@ public class ConsoleUI {
         out.println("(2) List of movies");
         out.println("(3) Check-out a book");
         out.println("(4) Return a book");
+        out.println("(5) Check-out a movie");
     }
 
     public void printCheckoutSuccessMessage() {
-        out.println("Thank you! Enjoy the book");
+        out.println("Thank you! Enjoy the item");
     }
 
     public void printCheckoutFailureMessage() {
-        out.println("Sorry, that book is not available");
+        out.println("Sorry, that item is not available");
     }
 
     public void printReturnSuccessMessage() {
-        out.println("Thank you for returning the book");
+        out.println("Thank you for returning the item");
     }
 
     public void printReturnFailureMessage() {
-        out.println("That is not a valid book to return.");
+        out.println("That is not a valid item to return.");
     }
 
     public void printSelectBookStatement() {
@@ -48,6 +49,10 @@ public class ConsoleUI {
 
     public void printInvalidOptionMessage() {
         out.println("Please select a valid option!");
+    }
+
+    public void printSelectMovieStatement() {
+        out.println("Select one of the movies by giving the name:");
     }
 
     public void listBooks() {

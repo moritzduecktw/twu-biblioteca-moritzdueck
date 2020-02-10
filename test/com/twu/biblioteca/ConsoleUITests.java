@@ -1,14 +1,11 @@
 package com.twu.biblioteca;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -39,6 +36,8 @@ public class ConsoleUITests {
         verify(out).println("(2) List of movies");
         verify(out).println("(3) Check-out a book");
         verify(out).println("(4) Return a book");
+        verify(out).println("(5) Check-out a movie");
+
     }
 
     @Test

@@ -60,5 +60,20 @@ public class MediaRepositoryTests {
         assertThat(mediaRepository.getBooks().size(), is(3));
     }
 
+    @Test
+    public void checksOutMovie() {
+        List <Movie> movies = new ArrayList<Movie>();
+        movies.add(new Movie("Chef", 2014, "Jon Favreau", MovieRating.TEN));
+        movies.add(new Movie("RED", 2010, "Robert Schwentke", MovieRating.SIX));
+        movies.add(new Movie("Joker", 2019, "Todd Phillips", MovieRating.NONE));
 
+        MediaRepository mediaRepository = new MediaRepository(books, movies);
+
+        assertThat(mediaRepository.checkOutMovie("Chef"), is(true));
+        assertThat(mediaRepository.checkOutMovie("Not a valid one"), is(false));
+        assertThat(mediaRepository.getCheckedOutMovies().get(0).getName(), is("Chef"));
+        assertThat(mediaRepository.getCheckedOutMovies().size(), is(1));
+        assertThat(mediaRepository.getMovies().size(), is(2));
+
+    }
 }

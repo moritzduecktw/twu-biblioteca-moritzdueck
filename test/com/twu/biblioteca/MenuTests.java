@@ -161,6 +161,21 @@ public class MenuTests {
     }
 
     @Test
+    public void checksOutMovieByMenu() {
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
+        UserInputHandler userInputHandler = mock(UserInputHandler.class);
+        when(userInputHandler.askForNextString()).thenReturn("Chef");
+        MediaRepository mediaRepository = mock(MediaRepository.class);
+        when(mediaRepository.checkOutMovie(anyString())).thenReturn(true);
+        Menu menu = new Menu(consoleUI, userInputHandler, mediaRepository);
+
+        menu.handleUserInput("5");
+
+        verify(mediaRepository).checkOutMovie("Chef");
+        verify(consoleUI).printCheckoutSuccessMessage();
+    }
+
+    @Test
     public void printsErrorOnWrongMenuInput() {
 
         ConsoleUI consoleUI = mock(ConsoleUI.class);
