@@ -51,9 +51,10 @@ public class Menu {
 
     public void checkoutBook() {
         consoleUI.printSelectBookStatement();
-        if(controller.checkOutBook(userInputHandler.askForNextString())){
+        try {
+            controller.checkOutBook(userInputHandler.askForNextString());
             consoleUI.printCheckoutSuccessMessage();
-        }else{
+        }catch (AuthenticationException e) {
             consoleUI.printCheckoutFailureMessage();
         }
     }
@@ -61,18 +62,20 @@ public class Menu {
 
     public void returnBook() {
         consoleUI.printSelectBookStatement();
-        if(controller.returnBook(userInputHandler.askForNextString())){
+        try {
+            controller.returnBook(userInputHandler.askForNextString());
             consoleUI.printReturnSuccessMessage();
-        }else{
-            consoleUI.printReturnFailureMessage();
+        }catch (AuthenticationException e) {
+                consoleUI.printReturnFailureMessage();
         }
     }
 
     private void checkoutMovie() {
         consoleUI.printSelectMovieStatement();
-        if(controller.checkOutMovie(userInputHandler.askForNextString())){
+        try {
+            controller.checkOutMovie(userInputHandler.askForNextString());
             consoleUI.printCheckoutSuccessMessage();
-        }else{
+        }catch (AuthenticationException e){
             consoleUI.printCheckoutFailureMessage();
         }
     }
@@ -80,9 +83,10 @@ public class Menu {
 
     private void returnMovie() {
         consoleUI.printSelectMovieStatement();
-        if(controller.returnMovie(userInputHandler.askForNextString())){
+        try {
+            controller.returnMovie(userInputHandler.askForNextString());
             consoleUI.printReturnSuccessMessage();
-        }else {
+        }catch (AuthenticationException e){
             consoleUI.printReturnFailureMessage();
         }
     }

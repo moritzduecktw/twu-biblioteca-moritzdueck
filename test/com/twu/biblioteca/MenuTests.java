@@ -37,7 +37,7 @@ public class MenuTests {
     }
 
     @Test
-    public void checksOutBooksByMenu() {
+    public void checksOutBooksByMenu() throws AuthenticationException {
         ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
         when(userInputHandler.askForNextString()).thenReturn("Clean Code: A Handbook of Agile Software Craftsmanship");
@@ -52,7 +52,7 @@ public class MenuTests {
     }
 
     @Test
-    public void returnsBooksByMenu() {
+    public void returnsBooksByMenu() throws AuthenticationException {
         ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
         when(userInputHandler.askForNextString()).thenReturn("book1");
@@ -135,7 +135,7 @@ public class MenuTests {
 //    }
 
     @Test
-    public void checksOutMovieByMenu() {
+    public void checksOutMovieByMenu() throws AuthenticationException {
         ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
         when(userInputHandler.askForNextString()).thenReturn("Chef");
@@ -150,7 +150,7 @@ public class MenuTests {
     }
 
     @Test
-    public void returnsMovieByMenu() {
+    public void returnsMovieByMenu() throws AuthenticationException {
         ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
         when(userInputHandler.askForNextString()).thenReturn("Chef");

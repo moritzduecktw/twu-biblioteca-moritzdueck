@@ -8,17 +8,11 @@ public class AuthenticationManager {
     private final List<User> users;
     private Privileges accessLevel;
 
-    private AuthenticationManager(){
+    public AuthenticationManager(){
         users = new ArrayList<User>();
         users.add(new User("123-1234","password", Privileges.USER));
         users.add(new User("999-7777","admin123", Privileges.ADMIN));
-    }
-
-    public static AuthenticationManager getInstance() {
-        if(instance == null){
-            instance = new AuthenticationManager();
-        }
-        return instance;
+        this.accessLevel = Privileges.NONE;
     }
 
     public boolean login(String libraryNumber, String password) {
@@ -36,5 +30,11 @@ public class AuthenticationManager {
 
     public Privileges getAccessLevel() {
         return accessLevel;
+    }
+
+    public void verify(Privileges privilege) throws AuthenticationException {
+        if(this.accessLevel.compareTo(privilege)<0){
+            throw new AuthenticationException("Access Denied. You do not have permission to access this functionality.");
+        }
     }
 }
