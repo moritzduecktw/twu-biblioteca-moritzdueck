@@ -1,6 +1,8 @@
 package com.twu.biblioteca;
 
 import com.twu.biblioteca.auth.AuthenticationManager;
+import com.twu.biblioteca.auth.Privileges;
+import com.twu.biblioteca.auth.User;
 import com.twu.biblioteca.controller.Controller;
 import com.twu.biblioteca.model.Book;
 import com.twu.biblioteca.model.MediaRepository;
@@ -25,8 +27,13 @@ public class BibliotecaApp {
         movies.add(new Movie("Chef", 2014, "Jon Favreau", MovieRating.TEN));
         movies.add(new Movie("RED", 2010, "Robert Schwentke", MovieRating.SIX));
 
+        List<User> users = new ArrayList<User>();
+        users.add(new User("123-1234","password", Privileges.USER));
+        users.add(new User("999-7777","admin123", Privileges.ADMIN));
+
+
         MediaRepository mediaRepository = new MediaRepository(books, movies);
-        AuthenticationManager authenticationManager = new AuthenticationManager();
+        AuthenticationManager authenticationManager = new AuthenticationManager(users);
         Controller controller = new Controller(mediaRepository, authenticationManager);
         ConsoleUI consoleUI = new ConsoleUI(System.out, mediaRepository);
         Menu menu = new Menu(consoleUI, new UserInputHandler(System.in), controller);
