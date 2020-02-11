@@ -35,4 +35,7 @@ public class Controller {
         return mediaRepository.returnMovie(name);
     }
 
+    public void login(String libraryNumber, String password) {
+        authenticationManager.login(libraryNumber,password);
+    }
 }

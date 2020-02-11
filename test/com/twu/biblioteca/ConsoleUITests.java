@@ -11,8 +11,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class ConsoleUITests {
     
@@ -43,6 +42,9 @@ public class ConsoleUITests {
         verify(out).println("(4) Return a book");
         verify(out).println("(5) Check-out a movie");
         verify(out).println("(6) Return a movie");
+        verify(out).println("(7) Login");
+
+        verifyNoMoreInteractions(out);
 
     }
 

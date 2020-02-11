@@ -1,5 +1,6 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.auth.User;
 import com.twu.biblioteca.controller.Controller;
 import com.twu.biblioteca.view.ConsoleUI;
 import com.twu.biblioteca.view.Menu;
@@ -99,6 +100,19 @@ public class MenuTests {
         verify(controller).returnMovie("Chef");
         verify(consoleUI).printReturnSuccessMessage();
     }
+
+    @Test
+    public void handleLogin() {
+
+        UserInputHandler userInputHandler = mock(UserInputHandler.class);
+        when(userInputHandler.askForNextString()).thenReturn("111-1111","password");
+        Controller controller = mock(Controller.class);
+        Menu menu = new Menu(mock(ConsoleUI.class),userInputHandler,controller);
+        menu.handleUserInput("7");
+        verify(controller).login("111-1111","password");
+
+    }
+
 
     @Test
     public void printsErrorOnWrongMenuInput() {

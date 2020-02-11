@@ -30,6 +30,7 @@ public class ConsoleUI {
         out.println("(4) Return a book");
         out.println("(5) Check-out a movie");
         out.println("(6) Return a movie");
+        out.println("(7) Login");
     }
 
     public void printCheckoutSuccessMessage() {

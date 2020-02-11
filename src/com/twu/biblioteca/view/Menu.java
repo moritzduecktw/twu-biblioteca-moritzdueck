@@ -12,6 +12,7 @@ public class Menu {
     private static final String RETURN_BOOK = "4";
     private static final String CHECKOUT_MOVIE = "5";
     private static final String RETURN_MOVIE = "6";
+    private static final String LOGIN = "7";
     private final ConsoleUI consoleUI;
 
     private UserInputHandler userInputHandler;
@@ -45,6 +46,8 @@ public class Menu {
             checkoutMovie();
         } else if(input.equals(RETURN_MOVIE)){
             returnMovie();
+        } else if(input.equals(LOGIN)){
+            login();
         } else {
             consoleUI.printInvalidOptionMessage();
         }
@@ -94,5 +97,12 @@ public class Menu {
         }
     }
 
+    private void login() {
+        consoleUI.println("Please enter your library number:");
+        String libraryNumber = userInputHandler.askForNextString();
+        consoleUI.println("Password:");
+        String password = userInputHandler.askForNextString();
+        controller.login(libraryNumber,password);
+    }
 
 }
