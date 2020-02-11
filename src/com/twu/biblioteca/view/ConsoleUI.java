@@ -55,7 +55,7 @@ public class ConsoleUI {
 
     public void listBooks() {
 
-        List<Book> books = mediaRepository.getBooks();
+        List<Book> books = mediaRepository.getAvailableBooks();
 
         StringBuffer result = new StringBuffer();
 
@@ -81,11 +81,11 @@ public class ConsoleUI {
     }
 
     public void listMovies() {
-        List<Movie> movies = mediaRepository.getMovies();
+        List<Movie> movies = mediaRepository.getAvailableMovies();
         StringBuffer result = new StringBuffer();
 
         int maxNameLength = movies.stream()
-                .map(Movie::getName)
+                .map(Movie::getTitle)
                 .map(String::length)
                 .reduce(0, Integer::max);
 
@@ -95,7 +95,7 @@ public class ConsoleUI {
                 .reduce(0, Integer::max);
 
         for (Movie movie : movies) {
-            result.append(paddString(movie.getName(), maxNameLength));
+            result.append(paddString(movie.getTitle(), maxNameLength));
             result.append(" | ");
             result.append(movie.getYear());
             result.append(" | ");

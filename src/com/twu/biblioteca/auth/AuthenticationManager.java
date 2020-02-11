@@ -37,4 +37,8 @@ public class AuthenticationManager {
             throw new AuthenticationException("Access Denied. You do not have permission to access this functionality.");
         }
     }
+
+    public User getCurrentUser() {
+        return null;
+    }
 }

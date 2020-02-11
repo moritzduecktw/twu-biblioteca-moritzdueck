@@ -1,86 +1,92 @@
 package com.twu.biblioteca.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.twu.biblioteca.auth.User;
+
+import java.util.*;
 
 public class MediaRepository {
-    private List<Book> checkedOutBooks;
-    private List<Book> books;
-    private List<Movie> movies;
-    private List<Movie> checkedOutMovies;
+    private List<Book> availableBooks;
+    private List<Movie> availableMovies;
+    private Map<Media,User> checkedOutItemsWithUsers;
 
-    public MediaRepository(List<Book> books, List<Movie> movies) {
-        this.books = books;
-        this.movies = movies;
-        this.checkedOutBooks = new ArrayList<Book>();
-        this.checkedOutMovies = new ArrayList<Movie>();
+    public MediaRepository(List<Book> availableBooks, List<Movie> availableMovies) {
+        this.availableBooks = availableBooks;
+        this.availableMovies = availableMovies;
+        checkedOutItemsWithUsers = new HashMap<>();
     }
 
-    public List<Book> getBooks() {
-        return this.books;
+    public List<Book> getAvailableBooks() {
+        return this.availableBooks;
     }
 
-    public List<Movie> getMovies() {
-        return movies;
+    public List<Movie> getAvailableMovies() {
+        return availableMovies;
+    }
+
+    public Map<Media, User> getCheckedOutItemsWithUsers() {
+        return checkedOutItemsWithUsers;
     }
 
     public List<Book> getCheckedOutBooks() {
-        return this.checkedOutBooks;
+        Set<Media> allMedia = this.checkedOutItemsWithUsers.keySet();
+        List<Book> books = new ArrayList<>();
+        for (Media media : allMedia) {
+            if(media.getClass() == Book.class){
+                books.add((Book) media);
+            }
+        }
+        return books;
     }
 
     public List<Movie> getCheckedOutMovies() {
-        return this.checkedOutMovies;
+        Set<Media> allMedia = this.checkedOutItemsWithUsers.keySet();
+        List<Movie> movies = new ArrayList<>();
+        for (Media media : allMedia) {
+            if(media.getClass() == Movie.class){
+                movies.add((Movie) media);
+            }
+        }
+        return movies;
     }
 
-    public boolean checkOutBook(String titleToCheckOut) throws MediaException {
-        for (int i = 0; i < books.size(); i++) {
-            Book book = books.get(i);
+    public boolean checkOutBook(String titleToCheckOut, User user) throws MediaException {
+        for (int i = 0; i < availableBooks.size(); i++) {
+            Book book = availableBooks.get(i);
 
             if (book.getTitle().equals(titleToCheckOut)) {
-                this.checkedOutBooks.add(book);
-                this.books.remove(book);
+                this.checkedOutItemsWithUsers.put(book,user);
+                this.availableBooks.remove(book);
                 return true;
             }
         }
-
         throw new MediaException("Sorry, that book is not available");
     }
 
 
-    public boolean returnBook(String titleToReturn) throws MediaException {
-        for (int i = 0; i < checkedOutBooks.size(); i++) {
-            Book book = checkedOutBooks.get(i);
-            if (book.getTitle().equals(titleToReturn)) {
-                this.books.add(book);
-                this.checkedOutBooks.remove(book);
-                return true;
-            }
-        }
-        throw new MediaException("That is not a valid book to return.");
-    }
-
-    public boolean checkOutMovie(String nameToCheckout) throws MediaException {
-        for (int i = 0; i < movies.size(); i++) {
-            Movie movie = movies.get(i);
-            if(movie.getName().equals(nameToCheckout)){
-                checkedOutMovies.add(movie);
-                movies.remove(movie);
+    public boolean checkOutMovie(String nameToCheckout, User user) throws MediaException {
+        for (int i = 0; i < availableMovies.size(); i++) {
+            Movie movie = availableMovies.get(i);
+            if(movie.getTitle().equals(nameToCheckout)){
+                checkedOutItemsWithUsers.put(movie,user);
+                availableMovies.remove(movie);
                 return true;
             }
         }
         throw new MediaException("Sorry, that movie is not available");
     }
 
-
-    public boolean returnMovie(String nameToReturn) throws MediaException {
-        for (int i = 0; i < checkedOutMovies.size(); i++) {
-            Movie movie = checkedOutMovies.get(i);
-            if(movie.getName().equals(nameToReturn)){
-                checkedOutMovies.remove(movie);
-                movies.add(movie);
+    public boolean returnMedia(String titleToReturn, User password) throws MediaException {
+        for (Media media: checkedOutItemsWithUsers.keySet()) {
+            if(media.getTitle().equals(titleToReturn)){
+                checkedOutItemsWithUsers.remove(media);
+                if(media.getClass()==Book.class){
+                    availableBooks.add((Book)media);
+                }else{
+                    availableMovies.add((Movie)media);
+                }
                 return true;
             }
         }
-        throw new MediaException("That is not a valid movie to return.");
+        throw new MediaException("That is not a valid item to return.");
     }
 }

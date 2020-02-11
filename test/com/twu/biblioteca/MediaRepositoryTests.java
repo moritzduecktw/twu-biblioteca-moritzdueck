@@ -1,5 +1,7 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.auth.Privileges;
+import com.twu.biblioteca.auth.User;
 import com.twu.biblioteca.model.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,13 +37,16 @@ public class MediaRepositoryTests {
         books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
         books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
         books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
-
         MediaRepository mediaRepository = new MediaRepository(books, movies);
 
-        assertThat(mediaRepository.checkOutBook("Clean Code: A Handbook of Agile Software Craftsmanship"), is(true));
+        assertThat(mediaRepository.checkOutBook("Clean Code: A Handbook of Agile Software Craftsmanship",new User("111-1111","password", Privileges.USER)), is(true));
+
         assertThat(mediaRepository.getCheckedOutBooks().get(0).getTitle(), is("Clean Code: A Handbook of Agile Software Craftsmanship"));
         assertThat(mediaRepository.getCheckedOutBooks().size(), is(1));
-        assertThat(mediaRepository.getBooks().size(), is(2));
+        assertThat(mediaRepository.getAvailableBooks().size(), is(2));
+        assert(mediaRepository.getCheckedOutItemsWithUsers().containsKey(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008)));
+        assert(mediaRepository.getCheckedOutItemsWithUsers().containsValue(new User("111-1111","password", Privileges.USER)));
+
     }
 
     @Test
@@ -50,13 +55,16 @@ public class MediaRepositoryTests {
         books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
         books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
         books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
-
         MediaRepository mediaRepository = new MediaRepository(books, movies);
-        mediaRepository.checkOutBook("Clean Code: A Handbook of Agile Software Craftsmanship");
+        mediaRepository.checkOutBook("Clean Code: A Handbook of Agile Software Craftsmanship", new User("111-1111", "password", Privileges.USER));
 
-        assertThat(mediaRepository.returnBook("Clean Code: A Handbook of Agile Software Craftsmanship"), is(true));
+        assertThat(mediaRepository.returnMedia("Clean Code: A Handbook of Agile Software Craftsmanship", new User("111-1111", "password", Privileges.USER)), is(true));
+
         assertThat(mediaRepository.getCheckedOutBooks().size(), is(0));
-        assertThat(mediaRepository.getBooks().size(), is(3));
+        assertThat(mediaRepository.getAvailableBooks().size(), is(3));
+        assert(!mediaRepository.getCheckedOutItemsWithUsers().containsKey(new Movie("Chef", 2014, "Jon Favreau", MovieRating.TEN)));
+        assert(!mediaRepository.getCheckedOutItemsWithUsers().containsValue(new User("111-1111","password", Privileges.USER)));
+
     }
 
     @Test
@@ -68,10 +76,13 @@ public class MediaRepositoryTests {
 
         MediaRepository mediaRepository = new MediaRepository(books, movies);
 
-        assertThat(mediaRepository.checkOutMovie("Chef"), is(true));
-        assertThat(mediaRepository.getCheckedOutMovies().get(0).getName(), is("Chef"));
+        assertThat(mediaRepository.checkOutMovie("Chef", new User("111-1111", "password", Privileges.USER)), is(true));
+        assertThat(mediaRepository.getCheckedOutMovies().get(0).getTitle(), is("Chef"));
+        assertThat(mediaRepository.getCheckedOutMovies().get(0).getTitle(), is("Chef"));
         assertThat(mediaRepository.getCheckedOutMovies().size(), is(1));
-        assertThat(mediaRepository.getMovies().size(), is(2));
+        assertThat(mediaRepository.getAvailableMovies().size(), is(2));
+        assert(mediaRepository.getCheckedOutItemsWithUsers().containsKey(new Movie("Chef", 2014, "Jon Favreau", MovieRating.TEN)));
+        assert(mediaRepository.getCheckedOutItemsWithUsers().containsValue(new User("111-1111","password", Privileges.USER)));
 
     }
 
@@ -81,38 +92,40 @@ public class MediaRepositoryTests {
         movies.add(new Movie("Chef", 2014, "Jon Favreau", MovieRating.TEN));
         movies.add(new Movie("RED", 2010, "Robert Schwentke", MovieRating.SIX));
         movies.add(new Movie("Joker", 2019, "Todd Phillips", MovieRating.NONE));
-
         MediaRepository mediaRepository = new MediaRepository(books, movies);
-        mediaRepository.checkOutMovie("Chef");
+        mediaRepository.checkOutMovie("Chef", new User("111-1111", "password", Privileges.USER));
 
-        assertThat(mediaRepository.returnMovie("Chef"), is(true));
+        assertThat(mediaRepository.returnMedia("Chef", new User("111-1111", "password", Privileges.USER)), is(true));
+
         assertThat(mediaRepository.getCheckedOutMovies().size(), is(0));
-        assertThat(mediaRepository.getMovies().size(), is(3));
+        assertThat(mediaRepository.getAvailableMovies().size(), is(3));
+        assert(!mediaRepository.getCheckedOutItemsWithUsers().containsKey(new Movie("Chef", 2014, "Jon Favreau", MovieRating.TEN)));
+        assert(!mediaRepository.getCheckedOutItemsWithUsers().containsValue(new User("111-1111","password", Privileges.USER)));
+
     }
 
     @Test(expected = MediaException.class)
     public void checkoutMovieThrowsExceptionOnInvalidChoice() throws BibliotecaException {
         MediaRepository mediaRepository = new MediaRepository(books, movies);
-        mediaRepository.checkOutMovie("not a valid one");
+        mediaRepository.checkOutMovie("not a valid one", new User("111-1111", "password", Privileges.USER));
     }
 
     @Test(expected = MediaException.class)
     public void checkoutBookThrowsExceptionOnInvalidChoice() throws BibliotecaException {
         MediaRepository mediaRepository = new MediaRepository(books, movies);
-        mediaRepository.checkOutBook("not a valid one");
+        mediaRepository.checkOutBook("not a valid one", new User("111-1111", "password", Privileges.USER));
     }
 
     @Test(expected = MediaException.class)
     public void returnMovieThrowsExceptionOnInvalidChoice() throws BibliotecaException {
         MediaRepository mediaRepository = new MediaRepository(books, movies);
-        mediaRepository.returnMovie("not a valid one");
+        mediaRepository.returnMedia("not a valid one", new User("111-1111", "password", Privileges.USER));
     }
 
     @Test(expected = MediaException.class)
     public void returnBookThrowsExceptionOnInvalidChoice() throws BibliotecaException {
         MediaRepository mediaRepository = new MediaRepository(books, movies);
-        mediaRepository.returnBook("not a valid one");
+        mediaRepository.returnMedia("not a valid one", new User("111-1111", "password", Privileges.USER));
     }
-
 
 }

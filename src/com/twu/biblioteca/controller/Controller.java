@@ -3,6 +3,7 @@ package com.twu.biblioteca.controller;
 import com.twu.biblioteca.BibliotecaException;
 import com.twu.biblioteca.auth.AuthenticationManager;
 import com.twu.biblioteca.auth.Privileges;
+import com.twu.biblioteca.auth.User;
 import com.twu.biblioteca.model.MediaRepository;
 
 public class Controller {
@@ -17,22 +18,22 @@ public class Controller {
 
     public boolean checkOutBook(String title) throws BibliotecaException {
         authenticationManager.verify(Privileges.USER);
-        return mediaRepository.checkOutBook(title);
+        return mediaRepository.checkOutBook(title, authenticationManager.getCurrentUser());
     }
 
     public boolean returnBook(String title) throws BibliotecaException {
         authenticationManager.verify(Privileges.USER);
-        return mediaRepository.returnBook(title);
+        return mediaRepository.returnMedia(title,authenticationManager.getCurrentUser());
     }
 
     public boolean checkOutMovie(String name) throws BibliotecaException {
         authenticationManager.verify(Privileges.USER);
-        return mediaRepository.checkOutMovie(name);
+        return mediaRepository.checkOutMovie(name, authenticationManager.getCurrentUser());
     }
 
     public boolean returnMovie(String name) throws BibliotecaException {
         authenticationManager.verify(Privileges.USER);
-        return mediaRepository.returnMovie(name);
+        return mediaRepository.returnMedia(name, authenticationManager.getCurrentUser());
     }
 
     public void login(String libraryNumber, String password) {

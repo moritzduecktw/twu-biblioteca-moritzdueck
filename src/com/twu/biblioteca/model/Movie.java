@@ -1,21 +1,18 @@
 package com.twu.biblioteca.model;
 
-public class Movie implements Media{
+import java.util.Objects;
 
-    private final String name;
+public class Movie extends Media{
+
     private final int year;
     private final String director;
     private final MovieRating rating;
 
-    public Movie(String name, int year, String director, MovieRating rating) {
-        this.name = name;
+    public Movie(String title, int year, String director, MovieRating rating) {
+        super(title);
         this.year = year;
         this.director = director;
         this.rating = rating;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getYear() {
@@ -30,6 +27,19 @@ public class Movie implements Media{
         return rating;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return year == movie.year &&
+                Objects.equals(title, movie.title) &&
+                Objects.equals(director, movie.director) &&
+                rating == movie.rating;
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, year, director, rating);
+    }
 }
