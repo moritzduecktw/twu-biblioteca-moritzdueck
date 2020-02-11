@@ -32,16 +32,8 @@ public class ConsoleUI {
         out.println("Thank you! Enjoy the item");
     }
 
-    public void printCheckoutFailureMessage() {
-        out.println("Sorry, that item is not available");
-    }
-
     public void printReturnSuccessMessage() {
         out.println("Thank you for returning the item");
-    }
-
-    public void printReturnFailureMessage() {
-        out.println("That is not a valid item to return.");
     }
 
     public void printSelectBookStatement() {

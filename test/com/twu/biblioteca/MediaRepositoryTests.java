@@ -90,25 +90,25 @@ public class MediaRepositoryTests {
     }
 
     @Test(expected = MediaException.class)
-    public void checkoutMoviethrowsExceptionOnInvalidChoice() throws BibliotecaException {
+    public void checkoutMovieThrowsExceptionOnInvalidChoice() throws BibliotecaException {
         MediaRepository mediaRepository = new MediaRepository(books, movies);
         mediaRepository.checkOutMovie("not a valid one");
     }
 
     @Test(expected = MediaException.class)
-    public void checkoutBookthrowsExceptionOnInvalidChoice() throws BibliotecaException {
+    public void checkoutBookThrowsExceptionOnInvalidChoice() throws BibliotecaException {
         MediaRepository mediaRepository = new MediaRepository(books, movies);
         mediaRepository.checkOutBook("not a valid one");
     }
 
     @Test(expected = MediaException.class)
-    public void returnMoviethrowsExceptionOnInvalidChoice() throws BibliotecaException {
+    public void returnMovieThrowsExceptionOnInvalidChoice() throws BibliotecaException {
         MediaRepository mediaRepository = new MediaRepository(books, movies);
         mediaRepository.returnMovie("not a valid one");
     }
 
     @Test(expected = MediaException.class)
-    public void returnBookthrowsExceptionOnInvalidChoice() throws BibliotecaException {
+    public void returnBookThrowsExceptionOnInvalidChoice() throws BibliotecaException {
         MediaRepository mediaRepository = new MediaRepository(books, movies);
         mediaRepository.returnBook("not a valid one");
     }

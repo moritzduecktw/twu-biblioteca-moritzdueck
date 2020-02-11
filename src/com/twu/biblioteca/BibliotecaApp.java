@@ -16,12 +16,11 @@ public class BibliotecaApp {
         movies.add(new Movie("RED", 2010, "Robert Schwentke", MovieRating.SIX));
 
         MediaRepository mediaRepository = new MediaRepository(books, movies);
-
         AuthenticationManager authenticationManager = new AuthenticationManager();
         Controller controller = new Controller(mediaRepository, authenticationManager);
-
         ConsoleUI consoleUI = new ConsoleUI(System.out, mediaRepository);
         Menu menu = new Menu(consoleUI, new UserInputHandler(System.in), controller);
+
         menu.start();
     }
 }
