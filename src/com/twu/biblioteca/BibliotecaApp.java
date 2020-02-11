@@ -1,5 +1,15 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.auth.AuthenticationManager;
+import com.twu.biblioteca.controller.Controller;
+import com.twu.biblioteca.model.Book;
+import com.twu.biblioteca.model.MediaRepository;
+import com.twu.biblioteca.model.Movie;
+import com.twu.biblioteca.model.MovieRating;
+import com.twu.biblioteca.view.ConsoleUI;
+import com.twu.biblioteca.view.Menu;
+import com.twu.biblioteca.view.UserInputHandler;
+
 import java.util.ArrayList;
 import java.util.List;
 

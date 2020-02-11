@@ -1,5 +1,10 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.model.Book;
+import com.twu.biblioteca.model.MediaRepository;
+import com.twu.biblioteca.model.Movie;
+import com.twu.biblioteca.model.MovieRating;
+import com.twu.biblioteca.view.ConsoleUI;
 import org.junit.Test;
 
 import java.io.PrintStream;

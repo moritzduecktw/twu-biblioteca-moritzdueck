@@ -1,4 +1,4 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.auth;
 
 public enum Privileges implements Comparable<Privileges>{
     NONE,

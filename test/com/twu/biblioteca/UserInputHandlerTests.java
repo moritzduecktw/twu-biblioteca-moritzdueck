@@ -1,5 +1,6 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.view.UserInputHandler;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;

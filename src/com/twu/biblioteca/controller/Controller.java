@@ -1,4 +1,9 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.controller;
+
+import com.twu.biblioteca.BibliotecaException;
+import com.twu.biblioteca.auth.AuthenticationManager;
+import com.twu.biblioteca.auth.Privileges;
+import com.twu.biblioteca.model.MediaRepository;
 
 public class Controller {
 

@@ -1,4 +1,7 @@
-package com.twu.biblioteca;
+package com.twu.biblioteca.view;
+
+import com.twu.biblioteca.BibliotecaException;
+import com.twu.biblioteca.controller.Controller;
 
 public class Menu {
 

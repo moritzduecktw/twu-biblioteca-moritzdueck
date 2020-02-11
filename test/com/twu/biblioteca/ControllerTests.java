@@ -1,5 +1,9 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.auth.AuthenticationManager;
+import com.twu.biblioteca.auth.Privileges;
+import com.twu.biblioteca.controller.Controller;
+import com.twu.biblioteca.model.MediaRepository;
 import org.junit.Test;
 
 import static org.mockito.Mockito.*;

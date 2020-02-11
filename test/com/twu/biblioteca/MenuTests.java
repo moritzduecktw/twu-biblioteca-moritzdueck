@@ -1,5 +1,9 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.controller.Controller;
+import com.twu.biblioteca.view.ConsoleUI;
+import com.twu.biblioteca.view.Menu;
+import com.twu.biblioteca.view.UserInputHandler;
 import org.junit.Test;
 
 import java.io.InputStream;
