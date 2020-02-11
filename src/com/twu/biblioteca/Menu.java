@@ -12,12 +12,12 @@ public class Menu {
     private final ConsoleUI consoleUI;
 
     private UserInputHandler userInputHandler;
-    private MediaRepository mediaRepository;
+    private Controller controller;
 
-    public Menu(ConsoleUI consoleUI, UserInputHandler userInputHandler, MediaRepository mediaRepository) {
+    public Menu(ConsoleUI consoleUI, UserInputHandler userInputHandler, Controller controller) {
         this.consoleUI = consoleUI;
         this.userInputHandler = userInputHandler;
-        this.mediaRepository = mediaRepository;
+        this.controller = controller;
     }
 
     public void start() {
@@ -51,16 +51,7 @@ public class Menu {
 
     public void checkoutBook() {
         consoleUI.printSelectBookStatement();
-        if(mediaRepository.checkOutBook(userInputHandler.askForNextString())){
-            consoleUI.printCheckoutSuccessMessage();
-        }else{
-            consoleUI.printCheckoutFailureMessage();
-        }
-    }
-
-    private void checkoutMovie() {
-        consoleUI.printSelectMovieStatement();
-        if(mediaRepository.checkOutMovie(userInputHandler.askForNextString())){
+        if(controller.checkOutBook(userInputHandler.askForNextString())){
             consoleUI.printCheckoutSuccessMessage();
         }else{
             consoleUI.printCheckoutFailureMessage();
@@ -70,17 +61,26 @@ public class Menu {
 
     public void returnBook() {
         consoleUI.printSelectBookStatement();
-        if(mediaRepository.returnBook(userInputHandler.askForNextString())){
+        if(controller.returnBook(userInputHandler.askForNextString())){
             consoleUI.printReturnSuccessMessage();
         }else{
             consoleUI.printReturnFailureMessage();
         }
     }
 
+    private void checkoutMovie() {
+        consoleUI.printSelectMovieStatement();
+        if(controller.checkOutMovie(userInputHandler.askForNextString())){
+            consoleUI.printCheckoutSuccessMessage();
+        }else{
+            consoleUI.printCheckoutFailureMessage();
+        }
+    }
+
 
     private void returnMovie() {
         consoleUI.printSelectMovieStatement();
-        if(mediaRepository.returnMovie(userInputHandler.askForNextString())){
+        if(controller.returnMovie(userInputHandler.askForNextString())){
             consoleUI.printReturnSuccessMessage();
         }else {
             consoleUI.printReturnFailureMessage();
