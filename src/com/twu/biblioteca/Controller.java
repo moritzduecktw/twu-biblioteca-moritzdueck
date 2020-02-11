@@ -10,22 +10,22 @@ public class Controller {
         this.authenticationManager = authenticationManager;
     }
 
-    public boolean checkOutBook(String title) throws AuthenticationException {
+    public boolean checkOutBook(String title) throws BibliotecaException {
         authenticationManager.verify(Privileges.USER);
         return mediaRepository.checkOutBook(title);
     }
 
-    public boolean returnBook(String title) throws AuthenticationException {
+    public boolean returnBook(String title) throws BibliotecaException {
         authenticationManager.verify(Privileges.USER);
         return mediaRepository.returnBook(title);
     }
 
-    public boolean checkOutMovie(String name) throws AuthenticationException {
+    public boolean checkOutMovie(String name) throws BibliotecaException {
         authenticationManager.verify(Privileges.USER);
         return mediaRepository.checkOutMovie(name);
     }
 
-    public boolean returnMovie(String name) throws AuthenticationException {
+    public boolean returnMovie(String name) throws BibliotecaException {
         authenticationManager.verify(Privileges.USER);
         return mediaRepository.returnMovie(name);
     }

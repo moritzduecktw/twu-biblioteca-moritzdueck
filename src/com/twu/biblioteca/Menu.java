@@ -54,8 +54,8 @@ public class Menu {
         try {
             controller.checkOutBook(userInputHandler.askForNextString());
             consoleUI.printCheckoutSuccessMessage();
-        }catch (AuthenticationException e) {
-            consoleUI.printCheckoutFailureMessage();
+        }catch (BibliotecaException e) {
+            consoleUI.println(e.getMessage());
         }
     }
 
@@ -65,8 +65,8 @@ public class Menu {
         try {
             controller.returnBook(userInputHandler.askForNextString());
             consoleUI.printReturnSuccessMessage();
-        }catch (AuthenticationException e) {
-                consoleUI.printReturnFailureMessage();
+        }catch (BibliotecaException e) {
+            consoleUI.println(e.getMessage());
         }
     }
 
@@ -75,8 +75,8 @@ public class Menu {
         try {
             controller.checkOutMovie(userInputHandler.askForNextString());
             consoleUI.printCheckoutSuccessMessage();
-        }catch (AuthenticationException e){
-            consoleUI.printCheckoutFailureMessage();
+        }catch (BibliotecaException e){
+            consoleUI.println(e.getMessage());
         }
     }
 
@@ -86,8 +86,8 @@ public class Menu {
         try {
             controller.returnMovie(userInputHandler.askForNextString());
             consoleUI.printReturnSuccessMessage();
-        }catch (AuthenticationException e){
-            consoleUI.printReturnFailureMessage();
+        }catch (BibliotecaException e){
+            consoleUI.println(e.getMessage());
         }
     }
 

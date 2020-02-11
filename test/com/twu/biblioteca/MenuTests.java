@@ -37,7 +37,7 @@ public class MenuTests {
     }
 
     @Test
-    public void checksOutBooksByMenu() throws AuthenticationException {
+    public void checksOutBooksByMenu() throws BibliotecaException {
         ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
         when(userInputHandler.askForNextString()).thenReturn("Clean Code: A Handbook of Agile Software Craftsmanship");
@@ -52,7 +52,7 @@ public class MenuTests {
     }
 
     @Test
-    public void returnsBooksByMenu() throws AuthenticationException {
+    public void returnsBooksByMenu() throws BibliotecaException {
         ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
         when(userInputHandler.askForNextString()).thenReturn("book1");
@@ -135,7 +135,7 @@ public class MenuTests {
 //    }
 
     @Test
-    public void checksOutMovieByMenu() throws AuthenticationException {
+    public void checksOutMovieByMenu() throws BibliotecaException {
         ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
         when(userInputHandler.askForNextString()).thenReturn("Chef");
@@ -150,7 +150,7 @@ public class MenuTests {
     }
 
     @Test
-    public void returnsMovieByMenu() throws AuthenticationException {
+    public void returnsMovieByMenu() throws BibliotecaException {
         ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
         when(userInputHandler.askForNextString()).thenReturn("Chef");

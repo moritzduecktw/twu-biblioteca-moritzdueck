@@ -116,4 +116,8 @@ public class ConsoleUI {
     private String paddString(String string, int targetLength) {
         return String.format("%-" + targetLength + "s", string);
     }
+
+    public void println(String message) {
+        out.println(message);
+    }
 }

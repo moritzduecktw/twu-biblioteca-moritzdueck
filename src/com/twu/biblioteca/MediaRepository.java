@@ -32,7 +32,7 @@ public class MediaRepository {
         return this.checkedOutMovies;
     }
 
-    public boolean checkOutBook(String titleToCheckOut) {
+    public boolean checkOutBook(String titleToCheckOut) throws MediaException {
         for (int i = 0; i < books.size(); i++) {
             Book book = books.get(i);
 
@@ -43,11 +43,11 @@ public class MediaRepository {
             }
         }
 
-        return false;
+        throw new MediaException("Sorry, that book is not available");
     }
 
 
-    public boolean returnBook(String titleToReturn) {
+    public boolean returnBook(String titleToReturn) throws MediaException {
         for (int i = 0; i < checkedOutBooks.size(); i++) {
             Book book = checkedOutBooks.get(i);
             if (book.getTitle().equals(titleToReturn)) {
@@ -56,10 +56,10 @@ public class MediaRepository {
                 return true;
             }
         }
-        return false;
+        throw new MediaException("That is not a valid book to return.");
     }
 
-    public boolean checkOutMovie(String nameToCheckout) {
+    public boolean checkOutMovie(String nameToCheckout) throws MediaException {
         for (int i = 0; i < movies.size(); i++) {
             Movie movie = movies.get(i);
             if(movie.getName().equals(nameToCheckout)){
@@ -68,11 +68,11 @@ public class MediaRepository {
                 return true;
             }
         }
-        return false;
+        throw new MediaException("Sorry, that movie is not available");
     }
 
 
-    public boolean returnMovie(String nameToReturn) {
+    public boolean returnMovie(String nameToReturn) throws MediaException {
         for (int i = 0; i < checkedOutMovies.size(); i++) {
             Movie movie = checkedOutMovies.get(i);
             if(movie.getName().equals(nameToReturn)){
@@ -81,6 +81,6 @@ public class MediaRepository {
                 return true;
             }
         }
-        return false;
+        throw new MediaException("That is not a valid movie to return.");
     }
 }

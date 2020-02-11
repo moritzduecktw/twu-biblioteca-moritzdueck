@@ -7,7 +7,7 @@ import static org.mockito.Mockito.*;
 public class ControllerTests {
 
     @Test()
-    public void verifiesCalls() throws AuthenticationException {
+    public void verifiesCalls() throws BibliotecaException {
         AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
         Controller controller = new Controller(mock(MediaRepository.class), authenticationManager);
 
