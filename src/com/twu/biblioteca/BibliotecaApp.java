@@ -35,7 +35,7 @@ public class BibliotecaApp {
         MediaRepository mediaRepository = new MediaRepository(books, movies);
         AuthenticationManager authenticationManager = new AuthenticationManager(users);
         Controller controller = new Controller(mediaRepository, authenticationManager);
-        ConsoleUI consoleUI = new ConsoleUI(System.out, mediaRepository);
+        ConsoleUI consoleUI = new ConsoleUI(System.out);
         Menu menu = new Menu(consoleUI, new UserInputHandler(System.in), controller);
 
         menu.start();

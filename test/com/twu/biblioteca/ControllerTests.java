@@ -19,8 +19,11 @@ public class ControllerTests {
         controller.returnBook("");
         controller.checkOutMovie("");
         controller.returnMovie("");
+        controller.getCheckedOutItemsWithUsers();
 
         verify(authenticationManager, times(4)).verify(Privileges.USER);
+        verify(authenticationManager, times(1)).verify(Privileges.ADMIN);
+
     }
 
 

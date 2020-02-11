@@ -1,7 +1,11 @@
 package com.twu.biblioteca.view;
 
 import com.twu.biblioteca.BibliotecaException;
+import com.twu.biblioteca.auth.User;
 import com.twu.biblioteca.controller.Controller;
+import com.twu.biblioteca.model.Media;
+
+import java.util.Map;
 
 public class Menu {
 
@@ -13,6 +17,7 @@ public class Menu {
     private static final String CHECKOUT_MOVIE = "5";
     private static final String RETURN_MOVIE = "6";
     private static final String LOGIN = "7";
+    private static final String LIST_BORROWINGS = "8";
     private final ConsoleUI consoleUI;
 
     private UserInputHandler userInputHandler;
@@ -35,9 +40,9 @@ public class Menu {
         if (input.equals(QUIT)) {
             return false;
         } else if (input.equals(LIST_BOOKS)) {
-            consoleUI.listBooks();
+            consoleUI.listBooks(controller.getAvailableBooks());
         } else if(input.equals(LIST_MOVIES)){
-            consoleUI.listMovies();
+            consoleUI.listMovies(controller.getAvailableMovies());
         } else if (input.equals(CHECKOUT_BOOK)) {
             checkoutBook();
         } else if( input.equals(RETURN_BOOK)){
@@ -48,10 +53,21 @@ public class Menu {
             returnMovie();
         } else if(input.equals(LOGIN)){
             login();
+        } else if(input.equals(LIST_BORROWINGS)){
+            listBorrowings();
         } else {
             consoleUI.printInvalidOptionMessage();
         }
         return true;
+    }
+
+    private void listBorrowings() {
+        try {
+            Map<Media, User> checkedOutItemsWithUsers = controller.getCheckedOutItemsWithUsers();
+            consoleUI.listCurrentBorrowings(checkedOutItemsWithUsers);
+        }catch (BibliotecaException e){
+            consoleUI.println(e.getMessage());
+        }
     }
 
 

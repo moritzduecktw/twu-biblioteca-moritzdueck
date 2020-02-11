@@ -1,20 +1,21 @@
 package com.twu.biblioteca.view;
 
+import com.twu.biblioteca.auth.User;
+import com.twu.biblioteca.controller.Controller;
 import com.twu.biblioteca.model.Book;
-import com.twu.biblioteca.model.MediaRepository;
+import com.twu.biblioteca.model.Media;
 import com.twu.biblioteca.model.Movie;
 
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Map;
 
 public class ConsoleUI {
 
     private PrintStream out;
-    private MediaRepository mediaRepository;
 
-    public ConsoleUI(PrintStream out, MediaRepository mediaRepository) {
+    public ConsoleUI(PrintStream out) {
         this.out = out;
-        this.mediaRepository = mediaRepository;
     }
 
     public void printWelcomeMessage() {
@@ -31,6 +32,7 @@ public class ConsoleUI {
         out.println("(5) Check-out a movie");
         out.println("(6) Return a movie");
         out.println("(7) Login");
+        out.println("(8) Currently checked-out items");
     }
 
     public void printCheckoutSuccessMessage() {
@@ -53,9 +55,7 @@ public class ConsoleUI {
         out.println("Select one of the movies by giving the name:");
     }
 
-    public void listBooks() {
-
-        List<Book> books = mediaRepository.getAvailableBooks();
+    public void listBooks(List<Book> books) {
 
         StringBuffer result = new StringBuffer();
 
@@ -80,11 +80,10 @@ public class ConsoleUI {
         out.print(result.toString());
     }
 
-    public void listMovies() {
-        List<Movie> movies = mediaRepository.getAvailableMovies();
+    public void listMovies(List<Movie> movies) {
         StringBuffer result = new StringBuffer();
 
-        int maxNameLength = movies.stream()
+        int maxTitleLength = movies.stream()
                 .map(Movie::getTitle)
                 .map(String::length)
                 .reduce(0, Integer::max);
@@ -95,7 +94,7 @@ public class ConsoleUI {
                 .reduce(0, Integer::max);
 
         for (Movie movie : movies) {
-            result.append(paddString(movie.getTitle(), maxNameLength));
+            result.append(paddString(movie.getTitle(), maxTitleLength));
             result.append(" | ");
             result.append(movie.getYear());
             result.append(" | ");
@@ -109,6 +108,26 @@ public class ConsoleUI {
 
     }
 
+    public void listCurrentBorrowings(Map<Media, User> checkedOutItemsWithUsers) {
+
+        StringBuffer result = new StringBuffer();
+
+        int maxTitleLength = checkedOutItemsWithUsers.keySet().stream()
+                .map(Media::getTitle)
+                .map(String::length)
+                .reduce(0, Integer::max);
+
+        for (Media media: checkedOutItemsWithUsers.keySet()) {
+            User user = checkedOutItemsWithUsers.get(media);
+
+            result.append(paddString(media.getTitle(), maxTitleLength));
+            result.append(" | ");
+            result.append(user.getLibraryNumber());
+            result.append("\n");
+        }
+
+        out.print(result.toString());
+    }
 
     private String paddString(String string, int targetLength) {
         return String.format("%-" + targetLength + "s", string);

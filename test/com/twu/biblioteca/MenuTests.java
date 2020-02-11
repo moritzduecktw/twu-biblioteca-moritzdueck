@@ -24,20 +24,20 @@ public class MenuTests {
     public void listsBooksByMenu() {
 
         ConsoleUI consoleUI = mock(ConsoleUI.class);
-        Menu menu = new Menu(consoleUI, new UserInputHandler(mock(InputStream.class)), null);
+        Menu menu = new Menu(consoleUI, new UserInputHandler(mock(InputStream.class)), mock(Controller.class));
 
         assertThat(menu.handleUserInput("1"), is(true));
-        verify(consoleUI).listBooks();
+        verify(consoleUI).listBooks(anyList());
     }
 
     @Test
     public void listsMoviesByMenu() {
 
         ConsoleUI consoleUI = mock(ConsoleUI.class);
-        Menu menu = new Menu(consoleUI, new UserInputHandler(mock(InputStream.class)),  null);
+        Menu menu = new Menu(consoleUI, new UserInputHandler(mock(InputStream.class)),  mock(Controller.class));
 
         assertThat(menu.handleUserInput("2"), is(true));
-        verify(consoleUI).listMovies();
+        verify(consoleUI).listMovies(anyList());
     }
 
     @Test
@@ -112,6 +112,16 @@ public class MenuTests {
 
     }
 
+    @Test
+    public void showCurrentBorrowings() {
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
+        Menu menu = new Menu(consoleUI,mock(UserInputHandler.class),mock(Controller.class));
+
+        menu.handleUserInput("8");
+
+        verify(consoleUI).listCurrentBorrowings(anyMap());
+
+    }
 
     @Test
     public void printsErrorOnWrongMenuInput() {

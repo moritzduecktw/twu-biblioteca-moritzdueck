@@ -1,10 +1,17 @@
 package com.twu.biblioteca.controller;
 
 import com.twu.biblioteca.BibliotecaException;
+import com.twu.biblioteca.auth.AuthenticationException;
 import com.twu.biblioteca.auth.AuthenticationManager;
 import com.twu.biblioteca.auth.Privileges;
 import com.twu.biblioteca.auth.User;
+import com.twu.biblioteca.model.Book;
+import com.twu.biblioteca.model.Media;
 import com.twu.biblioteca.model.MediaRepository;
+import com.twu.biblioteca.model.Movie;
+
+import java.util.List;
+import java.util.Map;
 
 public class Controller {
 
@@ -38,5 +45,18 @@ public class Controller {
 
     public void login(String libraryNumber, String password) {
         authenticationManager.login(libraryNumber,password);
+    }
+
+    public List<Book> getAvailableBooks() {
+        return mediaRepository.getAvailableBooks();
+    }
+
+    public List<Movie> getAvailableMovies() {
+        return mediaRepository.getAvailableMovies();
+    }
+
+    public Map<Media, User> getCheckedOutItemsWithUsers() throws AuthenticationException {
+        authenticationManager.verify(Privileges.ADMIN);
+        return mediaRepository.getCheckedOutItemsWithUsers();
     }
 }
