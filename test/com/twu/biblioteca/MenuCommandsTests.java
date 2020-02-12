@@ -100,6 +100,17 @@ public class MenuCommandsTests {
     }
 
     @Test
+    public void listBorrowingsCommand() throws BibliotecaException {
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
+        Controller controller = mock(Controller.class);
+        MenuCommand menuCommand = new ListBorrowingsCommand(consoleUI, controller);
+
+        menuCommand.execute();
+
+        verify(consoleUI).listCurrentBorrowings(anyMap());
+    }
+
+    @Test
     public void printUserInfoCommand() throws BibliotecaException {
         ConsoleUI consoleUI = mock(ConsoleUI.class);
         UserInputHandler userInputHandler = mock(UserInputHandler.class);
