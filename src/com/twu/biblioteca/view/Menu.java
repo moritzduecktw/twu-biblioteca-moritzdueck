@@ -29,8 +29,22 @@ public class Menu {
     public void start() {
         consoleUI.printWelcomeMessage();
         do {
-            consoleUI.printMenu();
+            show();
         } while (handleUserInput(userInputHandler.askForNextString()));
+    }
+
+    public void show() {
+        switch (controller.getPrivilege()){
+            case ADMIN:
+                consoleUI.printAdminMenu();
+                break;
+            case USER:
+                consoleUI.printUserMenu();
+                break;
+            default:
+                consoleUI.printGuestMenu();
+                break;
+        }
     }
 
     public boolean handleUserInput(String input) {

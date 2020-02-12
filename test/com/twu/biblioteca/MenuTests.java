@@ -17,9 +17,46 @@ import static org.mockito.Mockito.*;
 
 public class MenuTests {
 
+
+    @Test
+    public void printsGuestMenuWithoutLogin() {
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
+        Controller controller = mock(Controller.class);
+        when(controller.getPrivilege()).thenReturn(Privileges.NONE);
+        Menu menu = new Menu(consoleUI, new UserInputHandler(mock(InputStream.class)),  controller);
+
+        menu.show();
+
+        verify(consoleUI).printGuestMenu();
+    }
+
+    @Test
+    public void printsUserMenuAfterLogin() {
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
+        Controller controller = mock(Controller.class);
+        when(controller.getPrivilege()).thenReturn(Privileges.USER);
+        Menu menu = new Menu(consoleUI, mock(UserInputHandler.class), controller);
+
+        menu.show();
+
+        verify(consoleUI).printUserMenu();
+    }
+
+    @Test
+    public void printsAdminMenuAfterLogin() {
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
+        Controller controller = mock(Controller.class);
+        when(controller.getPrivilege()).thenReturn(Privileges.ADMIN);
+        Menu menu = new Menu(consoleUI, mock(UserInputHandler.class), controller);
+
+        menu.show();
+
+        verify(consoleUI).printAdminMenu();
+    }
+
     @Test
     public void exitsByMenu() {
-        Menu menu = new Menu(mock(ConsoleUI.class), new UserInputHandler(mock(InputStream.class)),  null);
+        Menu menu = new Menu(mock(ConsoleUI.class), mock(UserInputHandler.class),  null);
         assertThat(menu.handleUserInput("0"), is(false));
     }
 
@@ -27,7 +64,7 @@ public class MenuTests {
     public void listsBooksByMenu() {
 
         ConsoleUI consoleUI = mock(ConsoleUI.class);
-        Menu menu = new Menu(consoleUI, new UserInputHandler(mock(InputStream.class)), mock(Controller.class));
+        Menu menu = new Menu(consoleUI, mock(UserInputHandler.class), mock(Controller.class));
 
         assertThat(menu.handleUserInput("1"), is(true));
         verify(consoleUI).listBooks(anyList());
@@ -37,7 +74,7 @@ public class MenuTests {
     public void listsMoviesByMenu() {
 
         ConsoleUI consoleUI = mock(ConsoleUI.class);
-        Menu menu = new Menu(consoleUI, new UserInputHandler(mock(InputStream.class)),  mock(Controller.class));
+        Menu menu = new Menu(consoleUI, mock(UserInputHandler.class),  mock(Controller.class));
 
         assertThat(menu.handleUserInput("2"), is(true));
         verify(consoleUI).listMovies(anyList());

@@ -64,4 +64,8 @@ public class Controller {
         authenticationManager.verify(Privileges.USER);
         return authenticationManager.getCurrentUser();
     }
+
+    public Privileges getPrivilege(){
+        return authenticationManager.getPrivilege();
+    }
 }

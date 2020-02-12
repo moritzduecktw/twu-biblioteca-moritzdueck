@@ -22,6 +22,44 @@ public class ConsoleUI {
         out.println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
     }
 
+
+    public void printGuestMenu() {
+        out.println("Menu:\n");
+        out.println("(0) Quit");
+        out.println("(1) List of books");
+        out.println("(2) List of movies");
+        out.println("(7) Login");
+    }
+
+
+    public void printUserMenu() {
+        out.println("Menu:\n");
+        out.println("(0) Quit");
+        out.println("(1) List of books");
+        out.println("(2) List of movies");
+        out.println("(3) Check-out a book");
+        out.println("(4) Return a book");
+        out.println("(5) Check-out a movie");
+        out.println("(6) Return a movie");
+        out.println("(7) Login");
+        out.println("(9) Current User Info");
+    }
+
+
+    public void printAdminMenu() {
+        out.println("Menu:\n");
+        out.println("(0) Quit");
+        out.println("(1) List of books");
+        out.println("(2) List of movies");
+        out.println("(3) Check-out a book");
+        out.println("(4) Return a book");
+        out.println("(5) Check-out a movie");
+        out.println("(6) Return a movie");
+        out.println("(7) Login");
+        out.println("(8) Currently checked-out items");
+        out.println("(9) Current User Info");
+    }
+
     public void printMenu() {
         out.println("Menu:\n");
         out.println("(0) Quit");
