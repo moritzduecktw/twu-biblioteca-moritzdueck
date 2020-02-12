@@ -67,6 +67,18 @@ public class MediaRepositoryTests {
 
     }
 
+    @Test(expected = BibliotecaException.class)
+    public void returnMediaAsOtherUserFails() throws BibliotecaException {
+        List<Book> books = new ArrayList<Book>();
+        books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert C. Martin", 2008));
+        books.add(new Book("The Pragmatic Programmer: From Journeyman to Master", "Andrew Hunt and Dave Thomas", 1999));
+        books.add(new Book("Code Complete: A Practical Handbook of Software Construction", "Steve McConnell", 2004));
+        MediaRepository mediaRepository = new MediaRepository(books, movies);
+        mediaRepository.checkOutBook("Clean Code: A Handbook of Agile Software Craftsmanship", new User("111-1111", "password", Privileges.USER, "John Doe", "john.doe@gmail.com", "(555) 555-1234"));
+
+        assertThat(mediaRepository.returnMedia("Clean Code: A Handbook of Agile Software Craftsmanship", new User("222-2222", "password", Privileges.USER, "Bob", "bob@gmail.com", "(555) 555-1221")), is(false));
+    }
+
     @Test
     public void checksOutMovie() throws BibliotecaException {
         List <Movie> movies = new ArrayList<Movie>();

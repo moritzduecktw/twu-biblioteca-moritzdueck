@@ -75,9 +75,10 @@ public class MediaRepository {
         throw new MediaException("Sorry, that movie is not available");
     }
 
-    public boolean returnMedia(String titleToReturn, User password) throws MediaException {
+    public boolean returnMedia(String titleToReturn, User user) throws MediaException {
         for (Media media: checkedOutItemsWithUsers.keySet()) {
             if(media.getTitle().equals(titleToReturn)){
+                checkItemBelongsToUser(media,user);
                 checkedOutItemsWithUsers.remove(media);
                 if(media.getClass()==Book.class){
                     availableBooks.add((Book)media);
@@ -88,5 +89,11 @@ public class MediaRepository {
             }
         }
         throw new MediaException("That is not a valid item to return.");
+    }
+
+    private void checkItemBelongsToUser(Media media, User user) throws MediaException {
+        if(!checkedOutItemsWithUsers.get(media).equals(user)){
+            throw new MediaException("You cannot return the item of another user.");
+        }
     }
 }
