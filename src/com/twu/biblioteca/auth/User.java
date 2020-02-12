@@ -24,10 +24,6 @@ public class User {
         return libraryNumber;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public Privileges getPrivilege() {
         return privilege;
     }
@@ -54,4 +50,9 @@ public class User {
                 "E-Mail: " + email + "\n" +
                 "Phone: " + phone;
     }
+
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
+    }
+
 }

@@ -14,7 +14,7 @@ public class AuthenticationManager {
     public boolean login(String libraryNumber, String password) {
         for (User user: users) {
             if(user.getLibraryNumber().equals(libraryNumber)){
-                if(user.getPassword().equals(password)){
+                if(user.checkPassword(password)){
                     this.user = user;
                     return true;
                 }
