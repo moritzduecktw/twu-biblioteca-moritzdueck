@@ -28,8 +28,8 @@ public class BibliotecaApp {
         movies.add(new Movie("RED", 2010, "Robert Schwentke", MovieRating.SIX));
 
         List<User> users = new ArrayList<User>();
-        users.add(new User("123-1234","password", Privileges.USER));
-        users.add(new User("999-7777","admin123", Privileges.ADMIN));
+        users.add(new User("123-1234","password", Privileges.USER, "John Doe", "john.doe@gmail.com", "(555) 555-1234"));
+        users.add(new User("999-7777","admin123", Privileges.ADMIN, "John Doe", "john.doe@gmail.com", "(555) 555-1234"));
 
 
         MediaRepository mediaRepository = new MediaRepository(books, movies);

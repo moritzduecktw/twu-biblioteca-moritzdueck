@@ -33,6 +33,7 @@ public class ConsoleUI {
         out.println("(6) Return a movie");
         out.println("(7) Login");
         out.println("(8) Currently checked-out items");
+        out.println("(9) Current User Info");
     }
 
     public void printCheckoutSuccessMessage() {
@@ -135,5 +136,9 @@ public class ConsoleUI {
 
     public void println(String message) {
         out.println(message);
+    }
+
+    public void printCurrentUserInfo(User user) {
+        out.println(user);
     }
 }

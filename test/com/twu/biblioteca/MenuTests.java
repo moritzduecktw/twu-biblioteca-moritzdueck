@@ -1,5 +1,8 @@
 package com.twu.biblioteca;
 
+import com.twu.biblioteca.auth.AuthenticationException;
+import com.twu.biblioteca.auth.Privileges;
+import com.twu.biblioteca.auth.User;
 import com.twu.biblioteca.controller.Controller;
 import com.twu.biblioteca.view.ConsoleUI;
 import com.twu.biblioteca.view.Menu;
@@ -121,6 +124,19 @@ public class MenuTests {
 
         verify(consoleUI).listCurrentBorrowings(anyMap());
 
+    }
+
+    @Test
+    public void printCurrentUser() throws AuthenticationException {
+        ConsoleUI consoleUI = mock(ConsoleUI.class);
+        User user = new User("333-3333","password", Privileges.USER,"John Doe", "john.doe@gmail.com","(555) 555-1234");
+        Controller controller = mock(Controller.class);
+        when(controller.getCurrentUser()).thenReturn(user);
+        Menu menu = new Menu(consoleUI, mock(UserInputHandler.class), controller);
+
+        menu.handleUserInput("9");
+
+        verify(consoleUI).printCurrentUserInfo(user);
     }
 
     @Test

@@ -59,4 +59,9 @@ public class Controller {
         authenticationManager.verify(Privileges.ADMIN);
         return mediaRepository.getCheckedOutItemsWithUsers();
     }
+
+    public User getCurrentUser() throws AuthenticationException {
+        authenticationManager.verify(Privileges.USER);
+        return authenticationManager.getCurrentUser();
+    }
 }

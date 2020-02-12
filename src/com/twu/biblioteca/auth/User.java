@@ -7,11 +7,17 @@ public class User {
     private final String libraryNumber;
     private final String password;
     private Privileges privilege;
+    private String name;
+    private final String email;
+    private final String phone;
 
-    public User(String libraryNumber, String password, Privileges privilege) {
+    public User(String libraryNumber, String password, Privileges privilege, String name, String email, String phone) {
         this.libraryNumber = libraryNumber;
         this.password = password;
         this.privilege = privilege;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
     }
 
     public String getLibraryNumber() {
@@ -39,5 +45,13 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(libraryNumber, password, privilege);
+    }
+
+    @Override
+    public String toString() {
+        return "NR: " + libraryNumber + "\n" +
+                "Name: " + name + "\n" +
+                "E-Mail: " + email + "\n" +
+                "Phone: " + phone;
     }
 }

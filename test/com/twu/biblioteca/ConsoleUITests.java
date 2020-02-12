@@ -47,6 +47,7 @@ public class ConsoleUITests {
         verify(out).println("(6) Return a movie");
         verify(out).println("(7) Login");
         verify(out).println("(8) Currently checked-out items");
+        verify(out).println("(9) Current User Info");
 
         verifyNoMoreInteractions(out);
 
@@ -95,7 +96,7 @@ public class ConsoleUITests {
     @Test
     public void currentlyBorrowedMedia() throws AuthenticationException {
         Map<Media, User> checkedOutItemsWithUsers = new HashMap<>();
-        checkedOutItemsWithUsers.put(new Book("book1","Tom",1999),new User("111-1111","password", Privileges.USER));
+        checkedOutItemsWithUsers.put(new Book("book1","Tom",1999),new User("111-1111","password", Privileges.USER, "John Doe", "john.doe@gmail.com", "(555) 555-1234"));
         PrintStream out = mock(PrintStream.class);
         ConsoleUI consoleUI = new ConsoleUI(out);
         String expected =
@@ -104,8 +105,6 @@ public class ConsoleUITests {
         consoleUI.listCurrentBorrowings(checkedOutItemsWithUsers);
 
         verify(out).print(expected);
-
-
 
     }
 }

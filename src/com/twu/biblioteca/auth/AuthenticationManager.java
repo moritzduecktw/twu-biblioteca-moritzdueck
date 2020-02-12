@@ -39,6 +39,6 @@ public class AuthenticationManager {
     }
 
     private void setDefaultUser(){
-        this.user = new User("000-0000","",Privileges.NONE);
+        this.user = new User("000-0000","",Privileges.NONE, "John Doe", "john.doe@gmail.com", "(555) 555-1234");
     }
 }

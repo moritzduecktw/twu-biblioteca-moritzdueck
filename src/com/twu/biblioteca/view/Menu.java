@@ -18,6 +18,7 @@ public class Menu {
     private static final String RETURN_MOVIE = "6";
     private static final String LOGIN = "7";
     private static final String LIST_BORROWINGS = "8";
+    private static final String USER_INFO = "9";
     private final ConsoleUI consoleUI;
 
     private UserInputHandler userInputHandler;
@@ -55,6 +56,8 @@ public class Menu {
             login();
         } else if(input.equals(LIST_BORROWINGS)){
             listBorrowings();
+        } else if(input.equals(USER_INFO)){
+            printUserInfo();
         } else {
             consoleUI.printInvalidOptionMessage();
         }
@@ -119,6 +122,14 @@ public class Menu {
         consoleUI.println("Password:");
         String password = userInputHandler.askForNextString();
         controller.login(libraryNumber,password);
+    }
+
+    private void printUserInfo() {
+        try {
+            consoleUI.printCurrentUserInfo(controller.getCurrentUser());
+        }catch (BibliotecaException e){
+            consoleUI.println(e.getMessage());
+        }
     }
 
 }

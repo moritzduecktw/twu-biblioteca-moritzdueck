@@ -27,8 +27,8 @@ public class AuthenticationManagerTests {
     @BeforeClass
     public static void beforeClass() throws Exception {
         users = new ArrayList<User>();
-        users.add(new User("123-1234","password", Privileges.USER));
-        users.add(new User("999-7777","admin123", Privileges.ADMIN));
+        users.add(new User("123-1234","password", Privileges.USER, "John Doe", "john.doe@gmail.com", "(555) 555-1234"));
+        users.add(new User("999-7777","admin123", Privileges.ADMIN, "John Doe", "john.doe@gmail.com", "(555) 555-1234"));
     }
 
     @Before
@@ -88,7 +88,7 @@ public class AuthenticationManagerTests {
     @Test(expected = Test.None.class)
     public void getUser() throws AuthenticationException {
         authenticationManager.login(userNr,userPwd);
-        assertThat(authenticationManager.getCurrentUser(),is(new User("123-1234","password", Privileges.USER)));
+        assertThat(authenticationManager.getCurrentUser(),is(new User("123-1234","password", Privileges.USER, "John Doe", "john.doe@gmail.com", "(555) 555-1234")));
     }
 
 
